@@ -5,7 +5,7 @@ class PartyCreation extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        child: Text('Party creation'),
+        child: const Text('Party creation'),
       ),
     );
   }
