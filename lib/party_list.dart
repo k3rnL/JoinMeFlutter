@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class PartyDetail extends StatelessWidget {
+class PartyList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Text('Party detail')
+      child: Text('Party list and invitations')
     );
   }
 }
