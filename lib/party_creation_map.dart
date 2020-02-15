@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:join_me/router.dart';
 
 
 class PartyCreationMap extends StatelessWidget {
@@ -9,6 +10,7 @@ class PartyCreationMap extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Google Maps Demo',
       home: MapSample(),
+      onGenerateRoute: Router.generateRoute,
     );
   }
 }
