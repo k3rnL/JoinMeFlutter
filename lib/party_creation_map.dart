@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:join_me/services/api_service.dart';
 
 
 class PartyCreationMap extends StatelessWidget {
@@ -51,7 +52,12 @@ class MapSampleState extends State<MapSample> {
   }
 
   Future<void> _goToTheLake() async {
+    final ApiService apiService = ApiService();
+    //apiService.createParty('Adrien', '45 rue la quintinie');
+    apiService.addUsersToParty(['+33616228641'], 14978718);
     final GoogleMapController controller = await _controller.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(_kLake));
   }
+
+
 }
