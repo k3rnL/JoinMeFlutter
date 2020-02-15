@@ -52,9 +52,6 @@ class MapSampleState extends State<MapSample> {
   }
 
   Future<void> _goToTheLake() async {
-    final ApiService apiService = ApiService();
-    //apiService.createParty('Adrien', '45 rue la quintinie');
-    apiService.addUsersToParty(['+33616228641'], 14978718);
     final GoogleMapController controller = await _controller.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(_kLake));
   }

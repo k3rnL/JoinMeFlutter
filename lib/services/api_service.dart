@@ -15,7 +15,7 @@ class ApiService {
     party.address = address;
     final http.Response response = await http.post(url + '/party/create', body: jsonEncode(party));
     if (response.statusCode == 200) {
-      print('Response body: ${response.body}');
+      print('createParty Response body: ${response.body}');
     }
   }
 
@@ -28,8 +28,46 @@ class ApiService {
     }
     final http.Response response = await http.patch(url + '/party/' + partyId.toString(), body: jsonEncode(users));
     if (response.statusCode == 200) {
-      print('Response body: ${response.body}');
+      print('addUsersToParty Response body: ${response.body}');
     }
   }
 
+  Future<void> registerUser(String uid, String fcmToken) async {
+    final http.Response response = await http.post(url + '/users/' + uid + '/update_token', body: {'fcm_token': fcmToken});
+    if (response.statusCode == 200) {
+      print('registerUser Response body: ${response.body}');
+    }
+  }
+
+  Future<void> updateUserToken(String uid, String fcmToken) async {
+    final http.Response response = await http.patch(url + '/users/' + uid + '/update_token', body: {'fcm_token': fcmToken});
+    if (response.statusCode == 200) {
+      print('updateUserToken Response body: ${response.body}');
+    }
+  }
+
+  Future<User> getUser(String uid) async {
+    final http.Response response = await http.get(url + '/users/' + uid);
+    if (response.statusCode == 200) {
+      print('getUser Response body: ${response.body}');
+      return jsonDecode(response.body);
+    }
+    return null;
+  }
+
+  Future<Party> getParty(int id) async {
+    final http.Response response = await http.get(url + '/party/' + id.toString());
+    if (response.statusCode == 200) {
+      print('getParty Response body: ${response.body}');
+      return jsonDecode(response.body);
+    }
+    return null;
+  }
+
+  Future<void> unsubscribeToParty(String uid, int partyId) async {
+    final http.Response response = await http.get(url + '/users/' + uid);
+    if (response.statusCode == 200) {
+      print('unsubscribeToParty Response body: ${response.body}');
+    }
+  }
 }
