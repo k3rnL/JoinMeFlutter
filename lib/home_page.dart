@@ -5,7 +5,11 @@ import 'package:join_me/services/api_service.dart';
 import 'package:join_me/router.dart';
 
 
-class PartyCreationMap extends StatelessWidget {
+class HomePage extends StatelessWidget {
+  const HomePage({Key key, this.uid}) : super(key: key);
+
+  final String uid;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -56,5 +60,6 @@ class MapSampleState extends State<MapSample> {
   Future<void> _goToTheLake() async {
     final GoogleMapController controller = await _controller.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(_kLake));
+    Navigator.of(context).pushNamed(partyCreationMapRoute, arguments: context);
   }
 }
