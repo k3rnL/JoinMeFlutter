@@ -1,0 +1,77 @@
+{
+  "project_info": {
+    "project_number": "1009470360932",
+    "firebase_url": "https://joinme-2aa7a.firebaseio.com",
+    "project_id": "joinme-2aa7a",
+    "storage_bucket": "joinme-2aa7a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1009470360932:android:b53985635104b1875cbe71",
+        "android_client_info": {
+          "package_name": "com.k3rnl.join_me"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1009470360932-ipsai0h8giel3bht5sdjvgcdcboija74.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBc68BXFrjb6NWmGdmYGNKV_75_TDfq04E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1009470360932-ipsai0h8giel3bht5sdjvgcdcboija74.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1009470360932:android:2f7558febf5bf7b05cbe71",
+        "android_client_info": {
+          "package_name": "com.k3rnl.joinme"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1009470360932-5dvdfuts0sfs96dfbb8kjga82856fl8c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.k3rnl.joinme",
+            "certificate_hash": "3efc9ea2117a096a75e4da22ec65fcfe7a7f35b4"
+          }
+        },
+        {
+          "client_id": "1009470360932-ipsai0h8giel3bht5sdjvgcdcboija74.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBc68BXFrjb6NWmGdmYGNKV_75_TDfq04E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1009470360932-ipsai0h8giel3bht5sdjvgcdcboija74.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
