@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:join_me/auth.dart';
-import 'package:join_me/landing_page.dart';
 import 'package:join_me/pages/login_page.dart';
 import 'package:join_me/pages/splash_page.dart';
 import 'package:join_me/party_creation.dart';
@@ -23,7 +22,7 @@ class Router {
       case loginRoute:
         return MaterialPageRoute<LoginPage>(builder: (_) => LoginPage());
       case homeRoute:
-        return MaterialPageRoute<HomePage>(builder: (_) => HomePage());
+        return MaterialPageRoute<HomePage>(builder: (_) => const HomePage());
       case partyCreationMapRoute:
         return MaterialPageRoute<PartyCreation>(
             builder: (_) => ChangeNotifierProvider<Counter>(
