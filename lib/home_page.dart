@@ -1,5 +1,6 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:join_me/components/button.dart';
 import 'package:join_me/router.dart';
 import 'components/map.dart';
 
@@ -21,13 +22,12 @@ class _HomePageState extends State<HomePage> {
         body: Map(onRegionChanged: (LatLng latlng) {
           print(latlng);
         }),
-        floatingActionButton: FloatingActionButton.extended(
+        floatingActionButton: Button(
           onPressed: () {
             Navigator.of(context)
                 .pushNamed(partyCreationMapRoute, arguments: context);
           },
-          label: const Text('To the lake!'),
-          icon: Icon(Icons.directions_boat),
+          label: 'Create a party !  🎉',
         ),
       ),
       onGenerateRoute: Router.generateRoute,
