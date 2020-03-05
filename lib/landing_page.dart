@@ -1,8 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flare_flutter/flare_actor.dart';
-import 'package:join_me/home_page.dart';
-import 'package:join_me/router.dart';
 import 'package:provider/provider.dart';
 //
 //return Scaffold(
