@@ -20,7 +20,7 @@ class ApiService {
   }
 
   Future<void> addUsersToParty(List<String> phones, int partyId) async {
-    final List<User> users = [];
+    final List<User> users = <User> [];
     for (String phone in phones) {
       final User user = User();
       user.phone = phone;
@@ -33,14 +33,14 @@ class ApiService {
   }
 
   Future<void> registerUser(String uid, String fcmToken) async {
-    final http.Response response = await http.post(url + '/users/' + uid + '/update_token', body: {'fcm_token': fcmToken});
+    final http.Response response = await http.post(url + '/users/' + uid + '/update_token',  body: <String, dynamic> {'fcm_token': fcmToken});
     if (response.statusCode == 200) {
       print('registerUser Response body: ${response.body}');
     }
   }
 
   Future<void> updateUserToken(String uid, String fcmToken) async {
-    final http.Response response = await http.patch(url + '/users/' + uid + '/update_token', body: {'fcm_token': fcmToken});
+    final http.Response response = await http.patch(url + '/users/' + uid + '/update_token', body: <String, dynamic> {'fcm_token': fcmToken});
     if (response.statusCode == 200) {
       print('updateUserToken Response body: ${response.body}');
     }
