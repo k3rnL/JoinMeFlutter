@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:join_me/components/static_map.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+// ignore: must_be_immutable
 class PartyCreationPage extends StatelessWidget {
   PartyCreationPage() {
     getContactsPermissions().then((bool value) {
@@ -94,12 +95,10 @@ class PartyCreationPage extends StatelessWidget {
 }
 
 Future<bool> getContactsPermissions() async {
-  PermissionStatus permission =
+  final PermissionStatus permission =
       await PermissionHandler().checkPermissionStatus(PermissionGroup.contacts);
   if (permission == PermissionStatus.denied) {
-    Map<PermissionGroup, PermissionStatus> permissions =
-        await PermissionHandler()
-            .requestPermissions([PermissionGroup.contacts]);
+    await PermissionHandler().requestPermissions( <PermissionGroup> [PermissionGroup.contacts]);
   }
   if (permission == PermissionStatus.granted) {
     return true;
@@ -108,9 +107,6 @@ Future<bool> getContactsPermissions() async {
 }
 
 Future<List<Contact>> getContacts() async {
-  List<Contact> listContact = (await ContactsService.getContacts(withThumbnails: false)).toList();
-  for (var contact in listContact) {
-    print('name = ' + contact.displayName);
-  }
+  final List<Contact> listContact = (await ContactsService.getContacts(withThumbnails: false)).toList();
   return listContact;
 }
