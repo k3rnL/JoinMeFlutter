@@ -21,7 +21,7 @@ class Router {
       case loginRoute:
         return MaterialPageRoute<LoginPage>(builder: (_) => LoginPage());
       case homeRoute:
-        return MaterialPageRoute<HomePage>(builder: (_) => HomePage());
+        return MaterialPageRoute<HomePage>(builder: (_) => const HomePage());
       case partyCreationMapRoute:
         return MaterialPageRoute<HomePage>(builder: (_) => PartyCreationPage());
       default:

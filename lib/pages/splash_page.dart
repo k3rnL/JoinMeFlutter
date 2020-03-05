@@ -5,7 +5,7 @@ import 'package:flare_flutter/flare_actor.dart';
 import '../home_page.dart';
 
 class SplashPage extends StatefulWidget {
-  SplashPage({Key key}) : super(key: key);
+  const SplashPage({Key key}) : super(key: key);
 
   @override
   _SplashPageState createState() => _SplashPageState();

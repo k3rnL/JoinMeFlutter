@@ -12,6 +12,7 @@ dependencies:
   rive: ^0.0.1
   contacts_service: ^0.3.10
   permission_handler: '^4.3.0'
+  geolocator: ^5.1.4+2
 
   cupertino_icons: ^0.1.2
 
@@ -33,6 +34,7 @@ flutter:
 
   assets:
     - assets/animations/
+    - assets/images/
 
   # fonts:
   #   - family: Schyler

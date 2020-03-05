@@ -5,8 +5,14 @@ import 'package:permission_handler/permission_handler.dart';
 
 class PartyCreationPage extends StatelessWidget {
   PartyCreationPage() {
-    getContactsPermissions();
+    getContactsPermissions().then((bool value) {
+      if (value) {
+        //futureContacts = getContacts();
+      }
+    });
   }
+
+  Future<List<Contact>> futureContacts = getContacts();
 
   @override
   Widget build(BuildContext context) {
@@ -48,27 +54,63 @@ class PartyCreationPage extends StatelessWidget {
                 ),
               ),
             ),
+            const Text(
+              '0 contacts selected.',
+            ),
+
+
+/*            FutureBuilder<List<Contact>>(
+              future: futureContacts,
+              builder: (BuildContext context,
+                  AsyncSnapshot<List<Contact>> snapshot) {
+                if (snapshot.hasData) {
+                  return ListView.separated(
+                    padding: const EdgeInsets.all(8),
+                    itemCount: 0,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Container(
+                        height: 50,
+                        child: Center(child: Text('Entry')),
+                      );
+                    },
+                    separatorBuilder: (BuildContext context, int index) =>
+                        const Divider(),
+                  );
+                } else {
+                  return Text('Error' + snapshot.error.toString());
+                }/* else {
+                  return Text('Erro12r' + futureContacts.toString());
+                }*/
+              },
+            ),*/
+
+
+
           ],
         ),
       ),
     );
   }
-
 }
 
-Future<void> getContactsPermissions() async {
-  PermissionStatus permission = await PermissionHandler().checkPermissionStatus(PermissionGroup.contacts);
+Future<bool> getContactsPermissions() async {
+  PermissionStatus permission =
+      await PermissionHandler().checkPermissionStatus(PermissionGroup.contacts);
   if (permission == PermissionStatus.denied) {
-    Map<PermissionGroup, PermissionStatus> permissions = await PermissionHandler().requestPermissions([PermissionGroup.contacts]);
+    Map<PermissionGroup, PermissionStatus> permissions =
+        await PermissionHandler()
+            .requestPermissions([PermissionGroup.contacts]);
   }
   if (permission == PermissionStatus.granted) {
-    getContacts();
+    return true;
   }
+  return false;
 }
 
-Future<void> getContacts() async {
-  Iterable<Contact> contacts = await ContactsService.getContacts(withThumbnails: false);
-    for (var contact in contacts) {
-      print('name = ' + contact.displayName);
-    }
+Future<List<Contact>> getContacts() async {
+  List<Contact> listContact = (await ContactsService.getContacts(withThumbnails: false)).toList();
+  for (var contact in listContact) {
+    print('name = ' + contact.displayName);
+  }
+  return listContact;
 }
