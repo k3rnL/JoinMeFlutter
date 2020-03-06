@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:join_me/auth.dart';
 import 'package:join_me/pages/login_page.dart';
 import 'package:join_me/pages/splash_page.dart';
-import 'package:join_me/party_creation.dart';
+import 'package:join_me/pages/party_creation_page.dart';
 import 'package:join_me/home_page.dart';
-import 'package:provider/provider.dart';
 
 const String landingRoute = '/';
 const String authRoute = '/auth';
@@ -24,11 +23,7 @@ class Router {
       case homeRoute:
         return MaterialPageRoute<HomePage>(builder: (_) => const HomePage());
       case partyCreationMapRoute:
-        return MaterialPageRoute<PartyCreation>(
-            builder: (_) => ChangeNotifierProvider<Counter>(
-                  child: PartyCreation(),
-                  create: (_) => Counter(0),
-                ));
+        return MaterialPageRoute<HomePage>(builder: (_) => PartyCreationPage());
       default:
         return MaterialPageRoute<Container>(
             builder: (_) => Scaffold(
