@@ -1,7 +1,9 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:join_me/components/button.dart';
+import 'package:join_me/components/text_input.dart';
 import 'package:join_me/router.dart';
+import 'package:join_me/themes/light.dart';
 import 'components/map.dart';
 
 class HomePage extends StatefulWidget {
@@ -18,17 +20,12 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Google Maps Demo',
+      theme: buildLightTheme(),
       home: Scaffold(
         body: Map(onRegionChanged: (LatLng latlng) {
           print(latlng);
         }),
-        floatingActionButton: Button(
-          onPressed: () {
-            Navigator.of(context)
-                .pushNamed(partyCreationMapRoute, arguments: context);
-          },
-          label: 'Create a party !  🎉',
-        ),
+        floatingActionButton: TextInput(onTextChanged: (String v) {}, hintText: 'Oui',),
       ),
       onGenerateRoute: Router.generateRoute,
     );
