@@ -1,11 +1,28 @@
-import 'package:contacts_service/contacts_service.dart';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:join_me/components/static_map.dart';
-import 'package:permission_handler/permission_handler.dart';
+import 'package:image_picker/image_picker.dart';
 
 // ignore: must_be_immutable
-class ProfilPage extends StatelessWidget {
-  ProfilPage() {}
+class ProfilPage extends StatefulWidget {
+  @override
+  _ProfilPageState createState() => _ProfilPageState();
+}
+
+class _ProfilPageState extends State<ProfilPage> {
+  File _avatar;
+
+  _ProfilPageState() {
+    getImage();
+  }
+
+  Future getImage() async {
+    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      _avatar = image;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,23 +39,119 @@ class ProfilPage extends StatelessWidget {
                 Container(
                   width: MediaQuery.of(context).size.width,
                   height: 225,
-                  child: Image.network(
-                    'https://c1.lestechnophiles.com/www.numerama.com/content/uploads/2019/05/trou-noir-espace-univers-astronomie.jpg?resize=1212,712',
-                    fit: BoxFit.cover,
-                  ),
+                  child: const Image(image: AssetImage('assets/images/profilBackground.jpg'), fit: BoxFit.cover,),
                 ),
                 Positioned.fill(
                   child: Align(
-                    child: Container(
-                      width: 50,
-                      height: 50,
-                      child:
-                      const Image(image: AssetImage('assets/images/pin.png')),
+                    child: GestureDetector(
+                      onTap: getImage,
+                      child: CircleAvatar(
+                          radius: 72,
+                          backgroundColor: Colors.white,
+                          child: CircleAvatar(
+                            radius: 70,
+                            backgroundImage:
+                                AssetImage(_avatar == null ? '' : _avatar.path),
+                          )),
                     ),
                   ),
                 ),
               ],
             ),
+            GestureDetector(
+              onTap: getImage,
+              child: Container(
+                height: 70,
+                width: MediaQuery.of(context).size.width,
+                color: Colors.white,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const <Widget>[
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                      child: Text(
+                        'Firstname',
+                        style: TextStyle(fontSize: 15),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                      child: Text(
+                        'Hamilcar',
+                        style: TextStyle(fontSize: 15, color: Colors.grey),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            GestureDetector(
+              onTap: getImage,
+              child: Container(
+                height: 70,
+                width: MediaQuery.of(context).size.width,
+                color: Colors.white,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const <Widget>[
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                      child: Text(
+                        'Lastname',
+                        style: TextStyle(fontSize: 15),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                      child: Text(
+                        'CERE / Gabriel',
+                        style: TextStyle(fontSize: 15, color: Colors.grey),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            GestureDetector(
+              onTap: getImage,
+              child: Container(
+                height: 70,
+                width: MediaQuery.of(context).size.width,
+                color: Colors.white,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const <Widget>[
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                      child: Text(
+                        'Phone',
+                        style: TextStyle(fontSize: 15),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                      child: Text(
+                        '+33616228641',
+                        style: TextStyle(fontSize: 15, color: Colors.grey),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const RaisedButton(
+              onPressed: null,
+              child: Text(
+                'Log out',
+              ),
+            ),
+
+
+
+
           ],
         ),
       ),
