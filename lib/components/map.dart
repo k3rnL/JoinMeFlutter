@@ -38,7 +38,7 @@ class Map extends StatelessWidget {
             onRegionChanged(camera.target);
           },
           myLocationEnabled: true,
-          myLocationButtonEnabled: true,
+          myLocationButtonEnabled: false,
         ),
         Center(
           child: Pin(),

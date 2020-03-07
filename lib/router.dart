@@ -10,7 +10,7 @@ const String landingRoute = '/';
 const String authRoute = '/auth';
 const String loginRoute = '/login';
 const String homeRoute = '/home';
-const String profilRoute = '/profil';
+const String profileRoute = '/profile';
 const String partyCreationMapRoute = '/partyCreation/map';
 
 class Router {
@@ -24,10 +24,10 @@ class Router {
         return MaterialPageRoute<LoginPage>(builder: (_) => LoginPage());
       case homeRoute:
         return MaterialPageRoute<HomePage>(builder: (_) => const HomePage());
-      case profilRoute:
-        return MaterialPageRoute<HomePage>(builder: (_) => ProfilPage());
+      case profileRoute:
+        return MaterialPageRoute<ProfilPage>(builder: (_) => ProfilPage());
       case partyCreationMapRoute:
-        return MaterialPageRoute<HomePage>(builder: (_) => PartyCreationPage());
+        return MaterialPageRoute<PartyCreationPage>(builder: (_) => PartyCreationPage());
       default:
         return MaterialPageRoute<Container>(
             builder: (_) => Scaffold(
