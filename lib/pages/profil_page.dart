@@ -144,7 +144,7 @@ class _ProfilPageState extends State<ProfilPage> {
               ),
             ),
             const Padding(
-                padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
               child: Button(
                 onPressed: null,
                 label: 'Log out',
