@@ -13,10 +13,6 @@ class ProfilPage extends StatefulWidget {
 class _ProfilPageState extends State<ProfilPage> {
   File _avatar;
 
-  _ProfilPageState() {
-    getImage();
-  }
-
   Future getImage() async {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
 
