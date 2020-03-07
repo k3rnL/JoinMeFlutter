@@ -25,7 +25,12 @@ class _HomePageState extends State<HomePage> {
         body: Map(onRegionChanged: (LatLng latlng) {
           print(latlng);
         }),
-        floatingActionButton: TextInput(onTextChanged: (String v) {}, hintText: 'Oui',),
+        floatingActionButton: Button(
+          label: 'Oui',
+          onPressed: () {
+            Navigator.of(context).pushNamed(partyCreationMapRoute);
+          },
+        ),
       ),
       onGenerateRoute: Router.generateRoute,
     );

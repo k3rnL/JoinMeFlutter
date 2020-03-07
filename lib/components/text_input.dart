@@ -12,14 +12,15 @@ class TextInput extends StatelessWidget {
         width: 280,
         height: 45,
         decoration: const BoxDecoration(
-          boxShadow: [
+          borderRadius: BorderRadius.all(Radius.circular(50)),
+          boxShadow: <BoxShadow>[
             BoxShadow(
               color: Colors.grey,
-              blurRadius: 20.0, // has the effect of softening the shadow
-              spreadRadius: 5.0, // has the effect of extending the shadow
+              blurRadius: 10.0, // has the effect of softening the shadow
+              spreadRadius: 0.1, // has the effect of extending the shadow
               offset: Offset(
-                10.0, // horizontal, move right 10
-                10.0, // vertical, move down 10
+                3.0, // horizontal, move right 10
+                3.0, // vertical, move down 10
               ),
             )
           ],
@@ -29,6 +30,7 @@ class TextInput extends StatelessWidget {
         child: TextField(
           style: TextStyle(fontSize: 16),
           onChanged: onTextChanged,
+          decoration: InputDecoration(hintText: hintText),
         ));
   }
 }

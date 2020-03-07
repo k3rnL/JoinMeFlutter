@@ -35,13 +35,16 @@ ThemeData buildLightTheme() {
         title: base.textTheme.title.copyWith(color: TextColor),
         body1: base.textTheme.body1.copyWith(color: TextColor),
         body2: base.textTheme.body2.copyWith(color: TextColor)),
+
     inputDecorationTheme: const InputDecorationTheme(
       border: OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(40))
       ),
       contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
       filled: true,
-      fillColor: Colors.white,
+      fillColor: Background,
+      hintStyle: TextStyle(color: Colors.grey)
+
     )
   );
 }

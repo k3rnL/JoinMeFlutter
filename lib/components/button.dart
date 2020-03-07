@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 extension HexColor on Color {
   /// String is in the format "aabbcc" or "ffaabbcc" with an optional leading "#".
   static Color fromHex(String hexString) {
-    final buffer = StringBuffer();
+    final StringBuffer buffer = StringBuffer();
     if (hexString.length == 6 || hexString.length == 7) buffer.write('ff');
     buffer.write(hexString.replaceFirst('#', ''));
     return Color(int.parse(buffer.toString(), radix: 16));
@@ -29,11 +29,11 @@ class Button extends StatelessWidget {
   Widget build(BuildContext context) {
     return RawMaterialButton(
       elevation: 10,
-      fillColor: HexColor.fromHex('#2F74C5'),
-      splashColor: HexColor.fromHex('#4F84D5'),
-      highlightColor: HexColor.fromHex('#0F54A5'),
+      fillColor: Theme.of(context).primaryColor,
+      splashColor: Theme.of(context).primaryColorLight,
+      highlightColor: Theme.of(context).primaryColorDark,
       child: ConstrainedBox(
-        constraints: BoxConstraints.tightFor(width: 200, height: 45),
+        constraints: const BoxConstraints.tightFor(width: 200, height: 45),
         child: Padding(
           padding: const EdgeInsets.all(10.0),
           child: Row(
@@ -41,7 +41,7 @@ class Button extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               if (icon != null) icon else Container(),
-              const SizedBox(
+              if (icon != null) const SizedBox(
                 width: 10.0,
               ),
               Expanded(
