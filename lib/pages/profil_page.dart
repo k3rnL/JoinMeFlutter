@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:join_me/components/button.dart';
 
 // ignore: must_be_immutable
 class ProfilPage extends StatefulWidget {
@@ -142,16 +143,13 @@ class _ProfilPageState extends State<ProfilPage> {
                 ),
               ),
             ),
-            const RaisedButton(
-              onPressed: null,
-              child: Text(
-                'Log out',
+            const Padding(
+                padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+              child: Button(
+                onPressed: null,
+                label: 'Log out',
               ),
             ),
-
-
-
-
           ],
         ),
       ),
