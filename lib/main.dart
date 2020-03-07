@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:join_me/router.dart';
+import 'package:join_me/themes/light.dart';
 import 'package:provider/provider.dart';
 
 void main() => runApp(MyApp());
@@ -11,10 +12,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Provider<FirebaseAuth>(
       create: (_) => FirebaseAuth.instance,
-      child: const MaterialApp(
+      child: MaterialApp(
         title: 'Flutter Demo',
         onGenerateRoute: Router.generateRoute,
         initialRoute: landingRoute,
+        theme: buildLightTheme(),
       ),
     );
   }
