@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:join_me/components/button.dart';
+import 'package:join_me/components/text_input.dart';
 
 // ignore: must_be_immutable
 class ProfilPage extends StatefulWidget {
@@ -13,8 +14,8 @@ class ProfilPage extends StatefulWidget {
 class _ProfilPageState extends State<ProfilPage> {
   File _avatar;
 
-  Future getImage() async {
-    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+  Future<void> getImage() async {
+    File image = await ImagePicker.pickImage(source: ImageSource.gallery);
 
     setState(() {
       _avatar = image;
@@ -36,7 +37,10 @@ class _ProfilPageState extends State<ProfilPage> {
                 Container(
                   width: MediaQuery.of(context).size.width,
                   height: 225,
-                  child: const Image(image: AssetImage('assets/images/profilBackground.jpg'), fit: BoxFit.cover,),
+                  child: const Image(
+                    image: AssetImage('assets/images/profilBackground.jpg'),
+                    fit: BoxFit.cover,
+                  ),
                 ),
                 Positioned.fill(
                   child: Align(
@@ -56,7 +60,7 @@ class _ProfilPageState extends State<ProfilPage> {
               ],
             ),
             GestureDetector(
-              onTap: getImage,
+              onTap: () => _showAlert('Firstname'),
               child: Container(
                 height: 70,
                 width: MediaQuery.of(context).size.width,
@@ -84,7 +88,7 @@ class _ProfilPageState extends State<ProfilPage> {
               ),
             ),
             GestureDetector(
-              onTap: getImage,
+              onTap: () => _showAlert('Lastname'),
               child: Container(
                 height: 70,
                 width: MediaQuery.of(context).size.width,
@@ -111,36 +115,33 @@ class _ProfilPageState extends State<ProfilPage> {
                 ),
               ),
             ),
-            GestureDetector(
-              onTap: getImage,
-              child: Container(
-                height: 70,
-                width: MediaQuery.of(context).size.width,
-                color: Colors.white,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const <Widget>[
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-                      child: Text(
-                        'Phone',
-                        style: TextStyle(fontSize: 15),
-                      ),
+            Container(
+              height: 70,
+              width: MediaQuery.of(context).size.width,
+              color: Colors.white,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const <Widget>[
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                    child: Text(
+                      'Phone',
+                      style: TextStyle(fontSize: 15),
                     ),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-                      child: Text(
-                        '+33616228641',
-                        style: TextStyle(fontSize: 15, color: Colors.grey),
-                      ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                    child: Text(
+                      '+33616228641',
+                      style: TextStyle(fontSize: 15, color: Colors.grey),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
             const Padding(
-                padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+              padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
               child: Button(
                 onPressed: null,
                 label: 'Log out',
@@ -150,5 +151,37 @@ class _ProfilPageState extends State<ProfilPage> {
         ),
       ),
     );
+  }
+
+  void _showAlert(String label) {
+    showDialog<String>(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Center(child: Text(label)),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Container(
+                  child: TextInput(
+                    hintText: label, // TODO Mettre le nom ou prénom de la personne
+                  )
+                ),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: const <Widget>[
+                      Button(
+                        onPressed: null,
+                        label: 'Apply',
+                      ),
+                      Button(
+                        onPressed: null,
+                        label: 'Cancel',
+                      ),
+                    ])
+              ],
+            ),
+          );
+        });
   }
 }
