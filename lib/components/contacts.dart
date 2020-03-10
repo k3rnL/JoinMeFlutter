@@ -20,7 +20,7 @@ class Contacts extends StatelessWidget {
             builder:
                 (BuildContext context, AsyncSnapshot<List<Contact>> snapshot) {
               if (snapshot.hasData) {
-                List<Contact> contact = snapshot.data;
+                final List<Contact> contact = snapshot.data;
                 return Expanded(
                   child: ListView.builder(
                     padding: const EdgeInsets.all(8),
