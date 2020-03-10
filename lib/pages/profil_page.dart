@@ -4,20 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:join_me/components/button.dart';
 
-// ignore: must_be_immutable
-class ProfilPage extends StatefulWidget {
+class ProfilePage extends StatefulWidget {
   @override
-  _ProfilPageState createState() => _ProfilPageState();
+  _ProfilePageState createState() => _ProfilePageState();
 }
 
-class _ProfilPageState extends State<ProfilPage> {
+class _ProfilePageState extends State<ProfilePage> {
   File _avatar;
 
-  Future getImage() async {
-    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
-
-    setState(() {
-      _avatar = image;
+  void getImage() {
+    ImagePicker.pickImage(source: ImageSource.gallery).then((File image) {
+      setState(() {
+        _avatar = image;
+      });
     });
   }
 
@@ -36,7 +35,10 @@ class _ProfilPageState extends State<ProfilPage> {
                 Container(
                   width: MediaQuery.of(context).size.width,
                   height: 225,
-                  child: const Image(image: AssetImage('assets/images/profilBackground.jpg'), fit: BoxFit.cover,),
+                  child: const Image(
+                    image: AssetImage('assets/images/profilBackground.jpg'),
+                    fit: BoxFit.cover,
+                  ),
                 ),
                 Positioned.fill(
                   child: Align(
@@ -140,7 +142,7 @@ class _ProfilPageState extends State<ProfilPage> {
               ),
             ),
             const Padding(
-                padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+              padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
               child: Button(
                 onPressed: null,
                 label: 'Log out',
