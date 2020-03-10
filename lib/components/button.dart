@@ -20,8 +20,11 @@ extension HexColor on Color {
 }
 
 class Button extends StatelessWidget {
-  const Button({this.label, this.icon, this.onPressed});
 
+  const Button({this.width = 200, this.height = 45, this.label, this.icon, this.onPressed});
+
+  final double height;
+  final double width;
   final String label;
   final Widget icon;
   final VoidCallback onPressed;
@@ -34,7 +37,7 @@ class Button extends StatelessWidget {
       splashColor: Theme.of(context).primaryColorLight,
       highlightColor: Theme.of(context).primaryColorDark,
       child: ConstrainedBox(
-        constraints: const BoxConstraints.tightFor(width: 200, height: 45),
+        constraints: BoxConstraints.tightFor(width: width, height: height),
         child: Padding(
           padding: const EdgeInsets.all(10.0),
           child: Row(
