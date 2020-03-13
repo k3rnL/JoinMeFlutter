@@ -4,21 +4,21 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:join_me/components/button.dart';
 import 'package:join_me/components/text_input.dart';
+import 'package:join_me/components/InsideAlertDialogProfil.dart';
 
-// ignore: must_be_immutable
-class ProfilPage extends StatefulWidget {
+class ProfilePage extends StatefulWidget {
   @override
-  _ProfilPageState createState() => _ProfilPageState();
+  _ProfilePageState createState() => _ProfilePageState();
 }
 
-class _ProfilPageState extends State<ProfilPage> {
+class _ProfilePageState extends State<ProfilePage> {
   File _avatar;
 
-  Future<void> getImage() async {
-    File image = await ImagePicker.pickImage(source: ImageSource.gallery);
-
-    setState(() {
-      _avatar = image;
+  void getImage() {
+    ImagePicker.pickImage(source: ImageSource.gallery).then((File image) {
+      setState(() {
+        _avatar = image;
+      });
     });
   }
 
@@ -35,7 +35,10 @@ class _ProfilPageState extends State<ProfilPage> {
             Stack(
               children: <Widget>[
                 Container(
-                  width: MediaQuery.of(context).size.width,
+                  width: MediaQuery
+                      .of(context)
+                      .size
+                      .width,
                   height: 225,
                   child: const Image(
                     image: AssetImage('assets/images/profilBackground.jpg'),
@@ -52,7 +55,7 @@ class _ProfilPageState extends State<ProfilPage> {
                           child: CircleAvatar(
                             radius: 70,
                             backgroundImage:
-                                AssetImage(_avatar == null ? '' : _avatar.path),
+                            AssetImage(_avatar == null ? '' : _avatar.path),
                           )),
                     ),
                   ),
@@ -60,10 +63,35 @@ class _ProfilPageState extends State<ProfilPage> {
               ],
             ),
             GestureDetector(
-              onTap: () => _showAlert('Firstname'),
+              onTap: () =>
+                  showGeneralDialog<dynamic>(
+                      barrierColor: Colors.black.withOpacity(0.5),
+                      transitionBuilder: (context, a1, a2, widget) {
+                        final curvedValue = Curves.easeInOutBack.transform(
+                            a1.value) - 1.0;
+                        return Transform(
+                          transform: Matrix4.translationValues(
+                              0.0, curvedValue * 600, 0.0),
+                          child: Opacity(
+                            opacity: a1.value,
+                            child: const InsideAlertDialogProfil(
+                              label: 'Fistname',
+                              hintTextProfil: 'Hamilcar31',
+                            ),
+                          ),
+                        );
+                      },
+                      transitionDuration: Duration(milliseconds: 500),
+                      barrierDismissible: true,
+                      barrierLabel: '',
+                      context: context,
+                      pageBuilder: (context, animation1, animation2) {}),
               child: Container(
                 height: 70,
-                width: MediaQuery.of(context).size.width,
+                width: MediaQuery
+                    .of(context)
+                    .size
+                    .width,
                 color: Colors.white,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -88,10 +116,35 @@ class _ProfilPageState extends State<ProfilPage> {
               ),
             ),
             GestureDetector(
-              onTap: () => _showAlert('Lastname'),
+              onTap: () =>
+                  showGeneralDialog<dynamic>(
+                      barrierColor: Colors.black.withOpacity(0.5),
+                      transitionBuilder: (context, a1, a2, widget) {
+                        final curvedValue = Curves.easeInOutBack.transform(
+                            a1.value) - 1.0;
+                        return Transform(
+                          transform: Matrix4.translationValues(
+                              0.0, curvedValue * 600, 0.0),
+                          child: Opacity(
+                            opacity: a1.value,
+                            child: const InsideAlertDialogProfil(
+                              label: 'lastName',
+                              hintTextProfil: 'CERE / gabriel',
+                            ),
+                          ),
+                        );
+                      },
+                      transitionDuration: Duration(milliseconds: 500),
+                      barrierDismissible: true,
+                      barrierLabel: '',
+                      context: context,
+                      pageBuilder: (context, animation1, animation2) {}),
               child: Container(
                 height: 70,
-                width: MediaQuery.of(context).size.width,
+                width: MediaQuery
+                    .of(context)
+                    .size
+                    .width,
                 color: Colors.white,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -117,7 +170,10 @@ class _ProfilPageState extends State<ProfilPage> {
             ),
             Container(
               height: 70,
-              width: MediaQuery.of(context).size.width,
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width,
               color: Colors.white,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -141,7 +197,7 @@ class _ProfilPageState extends State<ProfilPage> {
               ),
             ),
             const Padding(
-              padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+              padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
               child: Button(
                 onPressed: null,
                 label: 'Log out',
@@ -163,24 +219,26 @@ class _ProfilPageState extends State<ProfilPage> {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Container(
-                  child: TextInput(
-                    hintText: label, // TODO Mettre le nom ou prénom de la personne
-                  )
-                ),
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const <Widget>[
-                      Button(
-                        onPressed: null,
-                        label: 'Apply',
-                      ),
-                      Button(
-                        onPressed: null,
-                        label: 'Cancel',
-                      ),
-                    ])
+                    child: TextInput(
+                      hintText:
+                      label, // TODO Mettre le nom ou prénom de la personne
+                    )),
               ],
             ),
+            actions: const <Widget>[
+              FlatButton(
+                onPressed: null,
+                child: Text(
+                  "Cancel",
+                ),
+              ),
+              FlatButton(
+                onPressed: null,
+                child: Text(
+                  "Apply",
+                ),
+              ),
+            ],
           );
         });
   }

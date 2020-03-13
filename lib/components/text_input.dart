@@ -28,7 +28,7 @@ class TextInput extends StatelessWidget {
 //          gradient: new LinearGradient(...),
         ),
         child: TextField(
-          style: TextStyle(fontSize: 16),
+          style: const TextStyle(fontSize: 16),
           onChanged: onTextChanged,
           decoration: InputDecoration(hintText: hintText),
         ));

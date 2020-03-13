@@ -5,7 +5,8 @@ extension HexColor on Color {
   /// String is in the format "aabbcc" or "ffaabbcc" with an optional leading "#".
   static Color fromHex(String hexString) {
     final StringBuffer buffer = StringBuffer();
-    if (hexString.length == 6 || hexString.length == 7) buffer.write('ff');
+    if (hexString.length == 6 || hexString.length == 7)
+      buffer.write('ff');
     buffer.write(hexString.replaceFirst('#', ''));
     return Color(int.parse(buffer.toString(), radix: 16));
   }
@@ -19,8 +20,12 @@ extension HexColor on Color {
 }
 
 class Button extends StatelessWidget {
-  const Button({this.label, this.icon, this.onPressed});
 
+  const Button({this.width = 200, this.height = 45, this.label, this.icon, this.onPressed, this.isError = false});
+
+  final double height;
+  final double width;
+  final bool isError;
   final String label;
   final Widget icon;
   final VoidCallback onPressed;
@@ -29,11 +34,11 @@ class Button extends StatelessWidget {
   Widget build(BuildContext context) {
     return RawMaterialButton(
       elevation: 10,
-      fillColor: Theme.of(context).primaryColor,
+      fillColor: isError == true ? Theme.of(context).errorColor : Theme.of(context).primaryColor,
       splashColor: Theme.of(context).primaryColorLight,
       highlightColor: Theme.of(context).primaryColorDark,
       child: ConstrainedBox(
-        constraints: const BoxConstraints.tightFor(width: 200, height: 45),
+        constraints: BoxConstraints.tightFor(width: width, height: height),
         child: Padding(
           padding: const EdgeInsets.all(10.0),
           child: Row(
