@@ -221,7 +221,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 Container(
                     child: TextInput(
                       hintText:
-                      label, // TODO Mettre le nom ou prénom de la personne
+                      label,
                     )),
               ],
             ),
