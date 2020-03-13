@@ -17,7 +17,7 @@ class Router {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case landingRoute:
-        return MaterialPageRoute<SplashPage>(builder: (_) => const SplashPage());
+        return MaterialPageRoute<SplashPage>(builder: (_) => ProfilePage());
       case authRoute:
         return MaterialPageRoute<Auth>(builder: (_) => Auth());
       case loginRoute:

@@ -21,10 +21,11 @@ extension HexColor on Color {
 
 class Button extends StatelessWidget {
 
-  const Button({this.width = 200, this.height = 45, this.label, this.icon, this.onPressed});
+  const Button({this.width = 200, this.height = 45, this.label, this.icon, this.onPressed, this.isError = false});
 
   final double height;
   final double width;
+  final bool isError;
   final String label;
   final Widget icon;
   final VoidCallback onPressed;
@@ -33,7 +34,7 @@ class Button extends StatelessWidget {
   Widget build(BuildContext context) {
     return RawMaterialButton(
       elevation: 10,
-      fillColor: Theme.of(context).primaryColor,
+      fillColor: isError == true ? Theme.of(context).errorColor : Theme.of(context).primaryColor,
       splashColor: Theme.of(context).primaryColorLight,
       highlightColor: Theme.of(context).primaryColorDark,
       child: ConstrainedBox(
