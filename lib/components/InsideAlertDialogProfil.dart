@@ -29,14 +29,14 @@ final String hintTextProfil;
             Navigator.of(context).pop();
           },
           child: Text(
-            "Cancel",
+            'Cancel',
             style: TextStyle(color: Colors.red),
           ),
         ),
         const FlatButton(
           onPressed: null,
           child: Text(
-            "Apply",
+            'Apply',
           ),
         ),
       ],

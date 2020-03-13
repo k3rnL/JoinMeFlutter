@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:join_me/components/button.dart';
-import 'package:join_me/components/text_input.dart';
 import 'package:join_me/components/InsideAlertDialogProfil.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -66,8 +65,8 @@ class _ProfilePageState extends State<ProfilePage> {
               onTap: () =>
                   showGeneralDialog<dynamic>(
                       barrierColor: Colors.black.withOpacity(0.5),
-                      transitionBuilder: (context, a1, a2, widget) {
-                        final curvedValue = Curves.easeInOutBack.transform(
+                      transitionBuilder: (BuildContext context, Animation<double> a1, Animation<double> a2, Widget widget) {
+                        final double curvedValue = Curves.easeInOutBack.transform(
                             a1.value) - 1.0;
                         return Transform(
                           transform: Matrix4.translationValues(
@@ -81,11 +80,11 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                         );
                       },
-                      transitionDuration: Duration(milliseconds: 500),
+                      transitionDuration: const Duration(milliseconds: 500),
                       barrierDismissible: true,
                       barrierLabel: '',
                       context: context,
-                      pageBuilder: (context, animation1, animation2) {}),
+                      pageBuilder: (BuildContext context, Animation<double> animation1, Animation<double> animation2) { return null;}),
               child: Container(
                 height: 70,
                 width: MediaQuery
@@ -119,8 +118,8 @@ class _ProfilePageState extends State<ProfilePage> {
               onTap: () =>
                   showGeneralDialog<dynamic>(
                       barrierColor: Colors.black.withOpacity(0.5),
-                      transitionBuilder: (context, a1, a2, widget) {
-                        final curvedValue = Curves.easeInOutBack.transform(
+                      transitionBuilder: (BuildContext context, Animation<double> a1, Animation<double> a2, Widget widget) {
+                        final double curvedValue = Curves.easeInOutBack.transform(
                             a1.value) - 1.0;
                         return Transform(
                           transform: Matrix4.translationValues(
@@ -134,11 +133,11 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                         );
                       },
-                      transitionDuration: Duration(milliseconds: 500),
+                      transitionDuration: const Duration(milliseconds: 500),
                       barrierDismissible: true,
                       barrierLabel: '',
                       context: context,
-                      pageBuilder: (context, animation1, animation2) {}),
+                      pageBuilder: (BuildContext context, Animation<double> animation1, Animation<double> animation2) {return null;}),
               child: Container(
                 height: 70,
                 width: MediaQuery
@@ -207,39 +206,5 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
       ),
     );
-  }
-
-  void _showAlert(String label) {
-    showDialog<String>(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Center(child: Text(label)),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Container(
-                    child: TextInput(
-                      hintText:
-                      label,
-                    )),
-              ],
-            ),
-            actions: const <Widget>[
-              FlatButton(
-                onPressed: null,
-                child: Text(
-                  "Cancel",
-                ),
-              ),
-              FlatButton(
-                onPressed: null,
-                child: Text(
-                  "Apply",
-                ),
-              ),
-            ],
-          );
-        });
   }
 }
