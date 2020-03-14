@@ -3,13 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:join_me/components/button.dart';
 import 'package:join_me/components/circle_image_button.dart';
 import 'package:join_me/router.dart';
-import 'package:join_me/themes/light.dart';
 import 'components/map.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key key, this.uid}) : super(key: key);
-
-  final String uid;
+  const HomePage({Key key}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -18,10 +15,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Google Maps Demo',
-      theme: buildLightTheme(),
-      home: Scaffold(
+    return Scaffold(
         body: Stack(
           children: <Widget>[
             Map(onRegionChanged: (LatLng latlng) {
@@ -61,8 +55,6 @@ class _HomePageState extends State<HomePage> {
           },
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      ),
-      onGenerateRoute: Router.generateRoute,
     );
   }
 }
