@@ -3,6 +3,15 @@ import 'package:join_me/components/button.dart';
 import 'package:join_me/components/contacts.dart';
 import 'package:join_me/components/static_map.dart';
 import 'package:join_me/components/text_input.dart';
+import 'package:join_me/models/party.dart';
+import 'package:join_me/models/user.dart';
+import 'package:join_me/services/api_service.dart';
+import 'package:provider/provider.dart';
+
+Future<void> createEvent(BuildContext context, Party party) async {
+  final String id = await ApiService.createParty(party.name, party.address);
+  ApiService.addUsersToPartyByUid(<String>[Provider.of<User>(context, listen: false).uid], id);
+}
 
 class PartyCreationPage extends StatelessWidget {
   @override
@@ -15,15 +24,22 @@ class PartyCreationPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            StaticMap(size: Size(MediaQuery.of(context).size.width, 200)),
-            const Button(
+            StaticMap(
+                address: Provider.of<Party>(context).address,
+                size: Size(MediaQuery.of(context).size.width, 200)),
+            Button(
               label: 'Confirm',
-              onPressed: null,
+              onPressed: () => createEvent(context, Provider.of<Party>(context, listen: false)),
             ),
             const Text(
               'Create your event !',
             ),
-            const TextInput(hintText: 'Name your party !'),
+            TextInput(
+              hintText: 'Name your party !',
+              onTextChanged: (String text) {
+                Provider.of<Party>(context, listen: false).name = text;
+              },
+            ),
             const SizedBox(height: 8),
             const TextInput(hintText: 'Search contact'),
             const Text(
