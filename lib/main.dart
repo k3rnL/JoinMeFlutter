@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:join_me/router.dart';
 import 'package:join_me/themes/light.dart';
 import 'package:provider/provider.dart';
+import 'package:provider/single_child_widget.dart';
 
 import 'models/user.dart';
 
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [
+      providers: <SingleChildWidget>[
         Provider<FirebaseAuth>(create: (BuildContext c) => FirebaseAuth.instance),
         ListenableProvider<User>(create: (BuildContext c) => User())
       ],

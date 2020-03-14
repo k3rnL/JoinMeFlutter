@@ -4,9 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:join_me/models/user.dart';
 import 'package:join_me/router.dart';
-import 'package:join_me/themes/light.dart';
 import 'package:provider/provider.dart';
-import '../home_page.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({Key key}) : super(key: key);
@@ -22,7 +20,7 @@ class _SplashPageState extends State<SplashPage> {
     super.initState();
   }
 
-  Future<void> tryConnect() {
+  void tryConnect() {
     FirebaseAuth.instance.currentUser().then((dynamic currentUser) {
       if (currentUser == null)
         Navigator.pushReplacementNamed(context, loginRoute);

@@ -3,10 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:join_me/components/button.dart';
 import 'package:join_me/components/circle_image_button.dart';
 import 'package:join_me/router.dart';
-import 'package:join_me/themes/light.dart';
-import 'package:provider/provider.dart';
 import 'components/map.dart';
-import 'models/user.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key key}) : super(key: key);
