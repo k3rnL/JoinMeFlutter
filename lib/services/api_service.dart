@@ -73,7 +73,6 @@ class ApiService {
   static Future<User> getUser(String uid) async {
     final http.Response response = await http.get(API_URL + '/users/' + uid);
     if (response.statusCode == 200) {
-      print('getUser Response body: ${response.body}');
       return User.fromJson(response.body);
     }
     return null;
