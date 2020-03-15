@@ -8,6 +8,7 @@ class User with ChangeNotifier {
 
   String uid;
   String phone;
+  String picture;
   List<String> invitations;
 
   Future<void> retrieveData() async {
@@ -16,11 +17,10 @@ class User with ChangeNotifier {
     invitations = user.invitations;
   }
 
-  dynamic toJson() =>
-      // ignore: always_specify_types
-      {
+  dynamic toJson() => <String, dynamic>{
         'uid': uid,
         'phone': phone,
+        'picture': picture,
         'invitations': invitations,
       };
 

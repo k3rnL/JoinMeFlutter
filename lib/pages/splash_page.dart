@@ -45,12 +45,12 @@ class _SplashPageState extends State<SplashPage> {
   static Future<void> backgroundMessageHandler(Map<String, dynamic> message) async {
     if (message.containsKey('data')) {
       // Handle data message
-      final dynamic data = message['data'];
+//      final dynamic data = message['data'];
     }
 
     if (message.containsKey('notification')) {
       // Handle notification message
-      final dynamic notification = message['notification'];
+//      final dynamic notification = message['notification'];
     }
 
     // Or do other work.
@@ -82,13 +82,14 @@ class _SplashPageState extends State<SplashPage> {
       Navigator.pushReplacementNamed(context, loginRoute);
       return false;
     } else {
-      // TODO copy all data from document to user model using provider
-      DocumentSnapshot user_doc = await Firestore.instance
+      final DocumentSnapshot userDoc = await Firestore.instance
           .collection('users')
           .document(currentUser.uid)
           .get();
 
       Provider.of<User>(context, listen: false).uid = currentUser.uid;
+      Provider.of<User>(context, listen: false).phone = userDoc.data['phone'];
+      Provider.of<User>(context, listen: false).picture = userDoc.data['picture'];
       return true;
     }
   }
