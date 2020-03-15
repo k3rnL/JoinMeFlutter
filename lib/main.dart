@@ -22,7 +22,8 @@ class MyApp extends StatelessWidget {
         ListenableProvider<Party>(create: (BuildContext c) => Party())
       ],
       child: MaterialApp(
-        title: 'Flutter Demo',
+        title: 'JoinMe',
+        debugShowCheckedModeBanner: false,
         onGenerateRoute: Router.generateRoute,
         initialRoute: landingRoute,
         theme: buildLightTheme(),

@@ -4,7 +4,7 @@ import 'package:join_me/pages/login_page.dart';
 import 'package:join_me/pages/splash_page.dart';
 import 'package:join_me/pages/party_creation_page.dart';
 import 'package:join_me/pages/profil_page.dart';
-import 'package:join_me/home_page.dart';
+import 'package:join_me/pages/home_page.dart';
 
 const String landingRoute = '/';
 const String authRoute = '/auth';
