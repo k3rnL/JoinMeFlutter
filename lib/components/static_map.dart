@@ -1,24 +1,36 @@
 import 'package:flutter/material.dart';
 
 class StaticMap extends StatelessWidget {
-  const StaticMap({
-    @required this.size,
-    @required this.address
-  });
+  const StaticMap({@required this.size, @required this.address});
 
   final Size size;
   final String address;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: size.width,
-      height: size.height,
-      child: Image.network(
-        generateImage(address),
-        fit: BoxFit.cover,
+    return Stack(children: <Widget>[
+      SizedBox(
+        width: size.width,
+        height: size.height,
+        child: Image.network(
+          generateImage(address),
+          fit: BoxFit.cover,
+        ),
       ),
-    );
+      Container(
+        width: size.width,
+        height: size.height,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            stops: const <double>[0.45, 1.0],
+            colors: <Color>[Colors.grey.withOpacity(0.0), Colors.white],
+            tileMode: TileMode.clamp, // repeats the gradient over the canvas
+          ),
+        ),
+      )
+    ]);
   }
 }
 
