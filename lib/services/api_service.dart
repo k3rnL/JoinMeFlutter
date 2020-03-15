@@ -52,22 +52,24 @@ class ApiService {
     }
   }
 
-  static Future<void> registerUser(String uid, String fcmToken) async {
-    final http.Response response = await http.post(
-        API_URL + '/users/' + uid + '/update_token',
-        body: <String, dynamic>{'fcm_token': fcmToken});
+  static Future<bool> registerUser(User user) async {
+    final http.Response response = await http.patch(
+        API_URL + '/users/register',
+        body: jsonEncode(user));
     if (response.statusCode == 200) {
-      print('registerUser Response body: ${response.body}');
+      return true;
     }
+    return false;
   }
 
-  static Future<void> updateUserToken(String uid, String fcmToken) async {
+  static Future<bool> updateUserToken(String uid, String fcmToken) async {
     final http.Response response = await http.patch(
-        API_URL + '/users/' + uid + '/update_token',
-        body: <String, dynamic>{'fcm_token': fcmToken});
+        API_URL + '/users/' + uid + '/token',
+        body: jsonEncode(<String, dynamic>{'fcm_token': fcmToken}));
     if (response.statusCode == 200) {
-      print('updateUserToken Response body: ${response.body}');
+      return true;
     }
+    return false;
   }
 
   static Future<User> getUser(String uid) async {

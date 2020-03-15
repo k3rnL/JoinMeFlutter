@@ -29,12 +29,14 @@ class _SplashPageState extends State<SplashPage> {
     final bool isConnected = await tryConnect();
 
     if (isConnected) {
-      Navigator.pushReplacementNamed(context, homeRoute);
       // update user token
       final String fcmToken =
           await Provider.of<FirebaseMessaging>(context, listen: false).getToken();
       await ApiService.updateUserToken(
           Provider.of<User>(context, listen: false).uid, fcmToken);
+
+      Navigator.pushReplacementNamed(context, homeRoute);
+
     } else {
       Navigator.pushReplacementNamed(context, loginRoute);
     }
