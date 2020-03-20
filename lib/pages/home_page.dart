@@ -47,7 +47,7 @@ class _HomePageState extends State<HomePage> {
             child: CircleImageButton(
                 image: const Image(image: AssetImage('assets/images/list.png')),
                 onTap: () {
-                  Navigator.of(context).pushNamed(profileRoute);
+                  Navigator.of(context).pushNamed(listPartyRoute);
                 }),
           )
         ],

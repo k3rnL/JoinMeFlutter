@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:join_me/models/party.dart';
+import 'package:join_me/models/user.dart';
+import 'package:join_me/services/api_service.dart';
+import 'package:provider/provider.dart';
 
 void main() => runApp(ListPartyPage());
 
@@ -12,61 +16,26 @@ class ListPartyPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
-        children: <Widget>[
-          ListTile(
-            leading: CircleAvatar(
-              backgroundImage: NetworkImage(horseUrl),
-            ),
-            title: Text('Horse'),
-            subtitle: Text('A strong animal'),
-            onTap: () {
-              print('horse');
-            },
-            selected: true,
-          ),
-          ListTile(
-            leading: CircleAvatar(
-              backgroundImage: NetworkImage(cowUrl),
-            ),
-            title: Text('Cow'),
-            subtitle: Text('Provider of milk'),
-            onTap: () {
-              print('cow');
-            },
-          ),
-          ListTile(
-            leading: CircleAvatar(
-              backgroundImage: NetworkImage(camelUrl),
-            ),
-            title: Text('Camel'),
-            subtitle: Text('Comes with humps'),
-            onTap: () {
-              print('camel');
-            },
-            enabled: false,
-          ),
-          ListTile(
-            leading: CircleAvatar(
-              backgroundImage: NetworkImage(sheepUrl),
-            ),
-            title: Text('Sheep'),
-            subtitle: Text('Provides wool'),
-            onTap: () {
-              print('sheep');
-            },
-          ),
-          ListTile(
-            leading: CircleAvatar(
-              backgroundImage: NetworkImage(goatUrl),
-            ),
-            title: Text('Goat'),
-            subtitle: Text('Some have horns'),
-            onTap: () {
-              print('goat');
-            },
-          ),
-        ],
+      body: FutureBuilder(
+        future: ApiService.getUser(Provider.of<User>(context, listen: false).uid),
+        builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
+          if (snapshot.hasData) {
+            final User user = snapshot.data;
+
+            return ListView.builder(
+                itemCount: user.invitations.length,
+                itemBuilder: (BuildContext ctxt, int index) {
+                  return Text(
+                      user.invitations[index]
+                  );
+                }
+            );
+          } else {
+            if (snapshot.hasError) print(' salut = ' + snapshot.error);
+            print('euhh');
+            return Text("lol");
+          }
+        },
       ),
     );
   }
