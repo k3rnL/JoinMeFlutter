@@ -5,9 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flare_flutter/flare_actor.dart';
+import 'package:flutter/services.dart';
 import 'package:join_me/models/user.dart';
 import 'package:join_me/router.dart';
 import 'package:join_me/services/api_service.dart';
+import 'package:join_me/themes/map_theme.dart';
 import 'package:provider/provider.dart';
 
 class SplashPage extends StatefulWidget {
@@ -27,6 +29,10 @@ class _SplashPageState extends State<SplashPage> {
   Future<void> init() async {
     await initNotifications();
     final bool isConnected = await tryConnect();
+
+    String dark = await rootBundle.loadString('assets/themes/map_dark.json');
+    Provider.of<MapTheme>(context, listen: false).themeDark = dark;
+    Provider.of<MapTheme>(context, listen: false).theme = dark;
 
     if (isConnected) {
       // update user token

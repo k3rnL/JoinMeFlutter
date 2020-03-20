@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:join_me/components/button.dart';
 import 'package:join_me/components/circle_image_button.dart';
 import 'package:join_me/router.dart';
+import 'package:join_me/themes/map_theme.dart';
 import 'package:provider/provider.dart';
 import '../components/map.dart';
 import '../models/party.dart';
@@ -34,8 +35,8 @@ class _HomePageState extends State<HomePage> {
             width: 45,
             height: 45,
             child: CircleImageButton(
-                image: const Image(image: AssetImage('assets/images/user.png')),
-                onTap: () {
+                image: Image.asset('assets/images/user.png', color: Theme.of(context).buttonColor,),
+                onTap: () {this.setState((){});
                   Navigator.of(context).pushNamed(profileRoute);
                 }),
           ),
@@ -45,7 +46,7 @@ class _HomePageState extends State<HomePage> {
             width: 45,
             height: 45,
             child: CircleImageButton(
-                image: const Image(image: AssetImage('assets/images/list.png')),
+                image: Image(image: const AssetImage('assets/images/list.png'), color: Theme.of(context).buttonColor),
                 onTap: () {
                   Navigator.of(context).pushNamed(profileRoute);
                 }),
@@ -55,6 +56,10 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: Button(
         label: 'Create a party !  🎉',
         onPressed: () {
+          Provider.of<MapTheme>(context, listen: false).switchTheme();
+          var oui = Provider.of<MapTheme>(context, listen: false);
+//          Provider.of<MapTheme>(context, listen: false).notifyListeners();
+          //oui.theme = oui.themeLight;
           Navigator.of(context).pushNamed(partyCreationMapRoute);
         },
       ),
