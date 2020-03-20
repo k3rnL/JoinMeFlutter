@@ -3,6 +3,7 @@ import 'package:join_me/models/party.dart';
 import 'package:join_me/models/user.dart';
 import 'package:join_me/services/api_service.dart';
 import 'package:provider/provider.dart';
+import 'package:join_me/components/list_item.dart';
 
 void main() => runApp(ListPartyPage());
 
@@ -16,7 +17,7 @@ class ListPartyPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FutureBuilder(
+      body: FutureBuilder<User>(
         future: ApiService.getUser(Provider.of<User>(context, listen: false).uid),
         builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
           if (snapshot.hasData) {
@@ -35,14 +36,12 @@ class ListPartyPage extends StatelessWidget {
 
                         return Column(
                           children: <Widget>[
-                            ListTile(
-                              leading: CircleAvatar(
-                                backgroundImage: NetworkImage('https://maps.googleapis.com/maps/api/staticmap?center=$encoded&zoom=13&size=1800x1800&maptype=roadmap&markers=color:blue%7C$encoded&key=AIzaSyAfv8IPCxhiURtrI8tDyQptGEVQoOl0G3c'),
-                              ),
-                              title: Text(party.name),
-                              subtitle: Text(nbMembersString),
+                            ListItem(
+                              image: NetworkImage('https://maps.googleapis.com/maps/api/staticmap?center=$encoded&zoom=13&size=1800x1800&maptype=roadmap&markers=color:blue%7C$encoded&key=AIzaSyAfv8IPCxhiURtrI8tDyQptGEVQoOl0G3c'),
+                              title: party.name,
+                              subtitle: nbMembersString,
                               onTap: () {
-                                print('goat');
+                                print('Mettre lappel pour party Detail');
                               },
                             ),
                           ],
@@ -52,13 +51,16 @@ class ListPartyPage extends StatelessWidget {
                           print(snapshot.error);
                         return const Text('lol');
                       }
-                    },                  );
+                    },
+                  );
                 }
             );
           } else {
-            if (snapshot.hasError) print(' salut = ' + snapshot.error);
+            if (snapshot.hasError) {
+              print(' salut = ' + snapshot.error);
+            }
             print('euhh');
-            return Text("lol");
+            return const Text('lol');
           }
         },
       ),
