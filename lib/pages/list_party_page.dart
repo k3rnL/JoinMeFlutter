@@ -25,9 +25,34 @@ class ListPartyPage extends StatelessWidget {
             return ListView.builder(
                 itemCount: user.invitations.length,
                 itemBuilder: (BuildContext ctxt, int index) {
-                  return Text(
-                      user.invitations[index]
-                  );
+                  return FutureBuilder<Party>(
+                    future: ApiService.getParty(user.invitations[index]),
+                    builder: (BuildContext context, AsyncSnapshot<Party> snapshot) {
+                      if (snapshot.hasData) {
+                        final Party party = snapshot.data;
+                        final String nbMembersString = party.members.length.toString() + ' members';
+                        final String encoded = Uri.encodeFull(party.address);
+
+                        return Column(
+                          children: <Widget>[
+                            ListTile(
+                              leading: CircleAvatar(
+                                backgroundImage: NetworkImage('https://maps.googleapis.com/maps/api/staticmap?center=$encoded&zoom=13&size=1800x1800&maptype=roadmap&markers=color:blue%7C$encoded&key=AIzaSyAfv8IPCxhiURtrI8tDyQptGEVQoOl0G3c'),
+                              ),
+                              title: Text(party.name),
+                              subtitle: Text(nbMembersString),
+                              onTap: () {
+                                print('goat');
+                              },
+                            ),
+                          ],
+                        );
+                      } else {
+                        if (snapshot.hasError)
+                          print(snapshot.error);
+                        return const Text('lol');
+                      }
+                    },                  );
                 }
             );
           } else {

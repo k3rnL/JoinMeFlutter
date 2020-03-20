@@ -82,10 +82,9 @@ class ApiService {
 
   static Future<Party> getParty(String id) async {
     final http.Response response =
-        await http.get(API_URL + '/party/' + id);
+    await http.get(API_URL + '/party/' + id);
     if (response.statusCode == 200) {
-      print('getParty Response body: ${response.body}');
-      return jsonDecode(response.body);
+      return Party.fromJson(response.body);
     }
     return null;
   }
