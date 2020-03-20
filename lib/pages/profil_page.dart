@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:join_me/components/button.dart';
-import 'package:join_me/components/rowProfil.dart';
+import 'package:join_me/components/list_item.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -61,13 +61,13 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ],
             ),
-            const RowProfil(
-              label: 'Fistname',
-              hintTextProfil: 'Hamilcar31',
+            const ListItem(
+              title: 'Fistname',
+              subtitle: 'Hamilcar31',
             ),
-            const RowProfil(
-              label: 'Lastname',
-              hintTextProfil: 'CERE / Gabriel',
+            const ListItem(
+              title: 'Lastname',
+              subtitle: 'CERE / Gabriel',
             ),
             Container(
               height: 70,
@@ -110,3 +110,28 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 }
+
+//void oui() {
+//  showGeneralDialog<dynamic>(
+//      barrierColor: Colors.black.withOpacity(0.5),
+//      transitionBuilder: (BuildContext context, Animation<double> a1, Animation<double> a2, Widget widget) {
+//        final double curvedValue = Curves.easeInOutBack.transform(
+//            a1.value) - 1.0;
+//        return Transform(
+//          transform: Matrix4.translationValues(
+//              0.0, curvedValue * 600, 0.0),
+//          child: Opacity(
+//            opacity: a1.value,
+//            child: InsideAlertDialogProfil(
+//              label: title,
+//              hintTextProfil: subtitle,
+//            ),
+//          ),
+//        );
+//      },
+//      transitionDuration: const Duration(milliseconds: 500),
+//      barrierDismissible: true,
+//      barrierLabel: '',
+//      context: context,
+//      pageBuilder: (BuildContext context, Animation<double> animation1, Animation<double> animation2) { return null;});
+//}

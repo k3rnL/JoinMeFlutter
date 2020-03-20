@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:join_me/components/button.dart';
-import 'package:join_me/components/rowProfil.dart';
+import 'package:join_me/components/list_item.dart';
 import 'package:join_me/components/static_map.dart';
 import 'package:join_me/models/party.dart';
 import 'package:join_me/services/api_service.dart';
@@ -31,9 +31,9 @@ class PartyDetailPage extends StatelessWidget {
                   child: ListView.builder(
                     itemCount: party.members.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return RowProfil(
-                        label: party.members[index].phone,
-                        hintTextProfil: '',
+                      return ListItem(
+                        title: party.members[index].phone,
+                        subtitle: '',
                       );
                     },
                   ),
