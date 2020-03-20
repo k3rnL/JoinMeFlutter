@@ -1,4 +1,6 @@
-class Party {
+import 'package:flutter/cupertino.dart';
+
+class Party with ChangeNotifier {
   Party();
 
   String name;

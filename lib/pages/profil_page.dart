@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:join_me/components/button.dart';
-import 'package:join_me/components/InsideAlertDialogProfil.dart';
 import 'package:join_me/components/rowProfil.dart';
 
 class ProfilePage extends StatefulWidget {
