@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:join_me/auth.dart';
 import 'package:join_me/pages/login_page.dart';
+import 'package:join_me/pages/party_detail.dart';
 import 'package:join_me/pages/splash_page.dart';
 import 'package:join_me/pages/party_creation_page.dart';
 import 'package:join_me/pages/profil_page.dart';
@@ -12,6 +13,7 @@ const String loginRoute = '/login';
 const String homeRoute = '/home';
 const String profileRoute = '/profile';
 const String partyCreationMapRoute = '/partyCreation/map';
+const String partyDetail = '/party/detail';
 
 class Router {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -28,6 +30,8 @@ class Router {
         return MaterialPageRoute<ProfilePage>(builder: (_) => ProfilePage());
       case partyCreationMapRoute:
         return MaterialPageRoute<PartyCreationPage>(builder: (_) => PartyCreationPage());
+      case partyDetail:
+        return MaterialPageRoute<PartyDetailPage>(builder: (_) => PartyDetailPage());
       default:
         return MaterialPageRoute<Container>(
             builder: (_) => Scaffold(

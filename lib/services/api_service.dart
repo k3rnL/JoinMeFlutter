@@ -84,8 +84,7 @@ class ApiService {
     final http.Response response =
         await http.get(API_URL + '/party/' + id.toString());
     if (response.statusCode == 200) {
-      print('getParty Response body: ${response.body}');
-      return jsonDecode(response.body);
+      return Party.fromJson(response.body);
     }
     return null;
   }
