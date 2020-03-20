@@ -49,7 +49,7 @@ class ListPartyPage extends StatelessWidget {
                       } else {
                         if (snapshot.hasError)
                           print(snapshot.error);
-                        return const Text('lol');
+                        return const Text('');
                       }
                     },
                   );
