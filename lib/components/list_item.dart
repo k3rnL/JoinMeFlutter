@@ -35,7 +35,7 @@ class ListItem extends StatelessWidget {
                 ),
                 Text(
                   subtitle,
-                  style: TextStyle(fontSize: 15, color: Colors.grey),
+                  style: const TextStyle(fontSize: 15, color: Colors.grey),
                 ),
               ],
             )

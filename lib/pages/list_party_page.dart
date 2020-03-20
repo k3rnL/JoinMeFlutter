@@ -57,10 +57,9 @@ class ListPartyPage extends StatelessWidget {
             );
           } else {
             if (snapshot.hasError) {
-              print(' salut = ' + snapshot.error);
+              print(snapshot.error);
             }
-            print('euhh');
-            return const Text('lol');
+            return const Text('');
           }
         },
       ),
