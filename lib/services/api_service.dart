@@ -107,7 +107,7 @@ class ApiService {
   }
 
   static Future<bool> updateProfilePicture(File imageProfile, String uid) async {
-      final http.Response response = await http.post(API_URL + '/users/' + uid + '/picture' ,body: {'picture': imageProfile.readAsBytesSync()});
+      final http.Response response = await http.post(API_URL + '/users/' + uid + '/picture' ,body: jsonEncode(<String, dynamic>{'picture': base64Encode(imageProfile.readAsBytesSync())}));
       print('salut');
       if (response.statusCode == 200) {
         print('OUI');
