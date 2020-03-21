@@ -32,7 +32,6 @@ class User with ChangeNotifier {
     final Map<String, dynamic> object = jsonDecode(json);
     final User user = User();
 
-    print(json);
     user.uid = object['id'];
     user.firstName = object['firstname'];
     user.lastName = object['lastname'];
