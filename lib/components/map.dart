@@ -36,28 +36,20 @@ class _MapState extends State<Map> {
 
   @override
   Widget build(BuildContext context) {
-    final String _theme = Provider.of<MapTheme>(context).theme;
-
     Provider.of<MapTheme>(context).addListener(() async {
-      (await _controller.future).setMapStyle(_theme);
+      (await _controller.future).setMapStyle(Provider.of<MapTheme>(context, listen: false).theme);
       setState(() {});
     });
 
     return Stack(
       children: <Widget>[
-        Text(_theme),
         GoogleMap(
           mapType: MapType.normal,
           initialCameraPosition: Map._kGooglePlex,
-          indoorViewEnabled: Provider.of<MapTheme>(context).theme == null,
           onMapCreated: (GoogleMapController controller) {
             _controller.complete(controller);
             _getDeviceLocation();
-            controller.setMapStyle(Provider.of<MapTheme>(context).theme);
-//                Provider.of<MapTheme>(context).addListener(() {
-//                  controller.setMapStyle(
-//                      theme.theme);
-//                });
+            controller.setMapStyle(Provider.of<MapTheme>(context, listen: false).theme);
           },
           onCameraMove: (CameraPosition camera) {
             widget.onRegionChanged(camera.target);

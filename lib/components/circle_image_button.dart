@@ -11,11 +11,10 @@ class CircleImageButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('is built');
-    return TouchableOpacity(
-      activeOpacity: 0,
-      onTap: onTap,
-      child: Image.asset('assets/images/user.png', color: Theme.of(context).buttonColor,),
+    return FlatButton(
+      shape: StadiumBorder(),
+        onPressed: onTap,
+        child: image
     );
   }
 }

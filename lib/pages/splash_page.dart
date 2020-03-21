@@ -30,10 +30,6 @@ class _SplashPageState extends State<SplashPage> {
     await initNotifications();
     final bool isConnected = await tryConnect();
 
-    String dark = await rootBundle.loadString('assets/themes/map_dark.json');
-    Provider.of<MapTheme>(context, listen: false).themeDark = dark;
-    Provider.of<MapTheme>(context, listen: false).theme = dark;
-
     if (isConnected) {
       // update user token
       final String fcmToken =

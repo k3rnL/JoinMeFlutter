@@ -5,6 +5,7 @@ import 'package:join_me/components/circle_image_button.dart';
 import 'package:join_me/router.dart';
 import 'package:join_me/themes/map_theme.dart';
 import 'package:provider/provider.dart';
+import 'package:touchable_opacity/touchable_opacity.dart';
 import '../components/map.dart';
 import '../models/party.dart';
 
@@ -17,6 +18,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   LatLng position;
+  String name = 'assets/images/user.png';
 
   @override
   Widget build(BuildContext context) {
@@ -25,26 +27,23 @@ class _HomePageState extends State<HomePage> {
         children: <Widget>[
           Map(onRegionChanged: (LatLng latlng) {
             Provider.of<Party>(context, listen: false).address = latlng.latitude.toString() + ',' + latlng.longitude.toString();
-//            setState(() {
-//              position = latlng;
-//            });
           }),
           Positioned(
-            top: MediaQuery.of(context).padding.top + 25,
-            left: 25,
-            width: 45,
-            height: 45,
+            top: MediaQuery.of(context).padding.top + 15,
+            left: 15,
+            width: 65,
+            height: 65,
             child: CircleImageButton(
-                image: Image.asset('assets/images/user.png', color: Theme.of(context).buttonColor,),
-                onTap: () {this.setState((){});
+                image: Image.asset(name, color: Theme.of(context).buttonColor,),
+                onTap: () {
                   Navigator.of(context).pushNamed(profileRoute);
                 }),
           ),
           Positioned(
-            top: MediaQuery.of(context).padding.top + 25,
-            right: 25,
-            width: 45,
-            height: 45,
+            top: MediaQuery.of(context).padding.top + 15,
+            right: 15,
+            width: 65,
+            height: 65,
             child: CircleImageButton(
                 image: Image(image: const AssetImage('assets/images/list.png'), color: Theme.of(context).buttonColor),
                 onTap: () {
@@ -56,10 +55,6 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: Button(
         label: 'Create a party !  🎉',
         onPressed: () {
-          Provider.of<MapTheme>(context, listen: false).switchTheme();
-          var oui = Provider.of<MapTheme>(context, listen: false);
-//          Provider.of<MapTheme>(context, listen: false).notifyListeners();
-          //oui.theme = oui.themeLight;
           Navigator.of(context).pushNamed(partyCreationMapRoute);
         },
       ),

@@ -11,8 +11,6 @@ import 'package:provider/provider.dart';
 
 Future<void> createEvent(BuildContext context, Party party) async {
   final String id = await ApiService.createParty(party.name, party.address);
-  ApiService.addUsersToPartyByUid(
-      <String>[Provider.of<User>(context, listen: false).uid], id);
   ApiService.addUsersToPartyByUid(<String>[Provider.of<User>(context, listen: false).uid], id);
 
   final Party partyAfter = await ApiService.getParty(id);

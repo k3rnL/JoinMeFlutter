@@ -15,7 +15,7 @@ class StaticMap extends StatelessWidget {
         width: size.width,
         height: size.height,
         child: Image.network(
-          Provider.of<MapTheme>(context).getStaticMapUrl(address),
+          Provider.of<MapTheme>(context).getStaticMapUrl(Uri.encodeFull(address)),
           fit: BoxFit.cover,
         ),
       ),
@@ -34,9 +34,4 @@ class StaticMap extends StatelessWidget {
       )
     ]);
   }
-}
-
-String generateImage(String address) {
-  final String encoded = Uri.encodeFull(address);
-  return 'https://maps.googleapis.com/maps/api/staticmap?center=$encoded&zoom=13&size=1800x1800&maptype=roadmap&markers=color:blue%7C$encoded&key=AIzaSyAfv8IPCxhiURtrI8tDyQptGEVQoOl0G3c';
 }

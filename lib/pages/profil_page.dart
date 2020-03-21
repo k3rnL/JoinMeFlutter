@@ -1,8 +1,10 @@
+import 'package:day_night_switch/day_night_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:join_me/components/alert_dialog_profile.dart';
 import 'package:join_me/components/button.dart';
 import 'package:join_me/components/list_item.dart';
 import 'package:join_me/models/user.dart';
+import 'package:join_me/themes/map_theme.dart';
 import 'package:provider/provider.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -39,8 +41,8 @@ class _ProfilePageState extends State<ProfilePage> {
                           backgroundColor: Colors.white,
                           child: CircleAvatar(
                             radius: 70,
-                            backgroundImage:
-                                NetworkImage(Provider.of<User>(context).picture),
+                            backgroundImage: NetworkImage(
+                                Provider.of<User>(context).picture),
                           )),
                     ),
                   ),
@@ -50,24 +52,42 @@ class _ProfilePageState extends State<ProfilePage> {
             ListItem(
               title: 'Fistname',
               subtitle: Provider.of<User>(context).firstName,
-              onTap: () => oui(context, 'Firstname', Provider.of<User>(context, listen: false).firstName, (String value) {
+              onTap: () => showPopup(context, 'Firstname',
+                  Provider.of<User>(context, listen: false).firstName,
+                  (String value) {
                 Provider.of<User>(context, listen: false).firstName = value;
               }),
             ),
             ListItem(
-              title: 'Lastname',
-              subtitle: Provider.of<User>(context).lastName,
-                onTap: () => oui(context, 'Lastname', Provider.of<User>(context, listen: false).lastName, (String value) {
-                  Provider.of<User>(context, listen: false).lastName = value;
-                })
+                title: 'Lastname',
+                subtitle: Provider.of<User>(context).lastName,
+                onTap: () => showPopup(context, 'Lastname',
+                        Provider.of<User>(context, listen: false).lastName,
+                        (String value) {
+                      Provider.of<User>(context, listen: false).lastName =
+                          value;
+                    })),
+            ListItem(
+              title: 'Phone',
+              subtitle: Provider.of<User>(context).phone,
             ),
-            ListItem(title: 'Phone', subtitle: Provider.of<User>(context).phone,),
-            const Padding(
-              padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
-              child: Button(
-                onPressed: null,
-                label: 'Log out',
-              ),
+            const SizedBox(
+              height: 40,
+            ),
+            DayNightSwitch(
+              value: !Provider.of<MapTheme>(context, listen: false).isLight(),
+              moonImage: const AssetImage('assets/images/moon.png'),
+              onChanged: (_) {
+                Provider.of<MapTheme>(context, listen: false)
+                    .switchTheme(save: true);
+              },
+            ),
+            const SizedBox(
+              height: 120,
+            ),
+            const Button(
+              onPressed: null,
+              label: 'Log out',
             ),
           ],
         ),
@@ -76,7 +96,8 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 }
 
-void oui(BuildContext context, String fieldName, String hint, Function(String) valueChanged) {
+void showPopup(BuildContext context, String fieldName, String hint,
+    Function(String) valueChanged) {
   showGeneralDialog<dynamic>(
       barrierColor: Colors.black.withOpacity(0.5),
       transitionBuilder: (BuildContext context, Animation<double> a1,
