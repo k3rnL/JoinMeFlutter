@@ -35,7 +35,6 @@ class User with ChangeNotifier {
     user.uid = object['id'];
     user.firstName = object['firstname'];
     user.lastName = object['lastname'];
-    print(user.firstName);
 
     final List<dynamic> invitationsRaw = object['invitations'] as List<dynamic>;
     user.invitations = invitationsRaw

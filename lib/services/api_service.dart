@@ -89,8 +89,8 @@ class ApiService {
     return null;
   }
 
-  static Future<void> unsubscribeToParty(String uid, int partyId) async {
-    final http.Response response = await http.get(API_URL + '/users/' + uid);
+  static Future<void> unsubscribeToParty(String uid, String partyId) async {
+    final http.Response response = await http.delete(API_URL + '/users/' + uid + '/' + partyId);
     if (response.statusCode == 200) {
       print('unsubscribeToParty Response body: ${response.body}');
     }

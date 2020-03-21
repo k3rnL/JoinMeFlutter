@@ -7,15 +7,15 @@ import 'package:provider/provider.dart';
 import 'package:join_me/components/list_item.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
-void main() => runApp(ListPartyPage());
+class ListPartyPage extends StatefulWidget {
+  const ListPartyPage({Key key}) : super(key: key);
 
-String horseUrl = 'https://i.imgur.com/NxyQI3b.png';
-String cowUrl = 'https://i.stack.imgur.com/XPOr3.png';
-String camelUrl = 'https://i.stack.imgur.com/YN0m7.png';
-String sheepUrl = 'https://i.stack.imgur.com/wKzo8.png';
-String goatUrl = 'https://i.stack.imgur.com/Qt4JP.png';
+  @override
+  _ListPartyPage createState() => _ListPartyPage();
+}
 
-class ListPartyPage extends StatelessWidget {
+class _ListPartyPage extends State<ListPartyPage> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,55 +30,60 @@ class ListPartyPage extends StatelessWidget {
                 itemCount: user.invitations.length,
                 itemBuilder: (BuildContext ctxt, int index) {
                   return Slidable(
-                    actionPane: const SlidableDrawerActionPane(),
-                    actionExtentRatio: 0.25,
-                    child: FutureBuilder<Party>(
-                      future: ApiService.getParty(user.invitations[index]),
-                      builder: (BuildContext context,
-                          AsyncSnapshot<Party> snapshot) {
-                        if (snapshot.hasData) {
-                          final Party party = snapshot.data;
-                          final String nbMembersString =
-                              party.members.length.toString() + ' members';
-                          final String encoded = Uri.encodeFull(party.address);
+                    key: Key(user.invitations[index]),
+                      actionPane: const SlidableDrawerActionPane(),
+                      child: FutureBuilder<Party>(
+                        future: ApiService.getParty(user.invitations[index]),
+                        builder: (BuildContext context,
+                            AsyncSnapshot<Party> snapshot) {
+                          if (snapshot.hasData) {
+                            final Party party = snapshot.data;
+                            final String nbMembersString =
+                                party.members.length.toString() + ' members';
+                            final String encoded =
+                                Uri.encodeFull(party.address);
 
-                          return Column(
-                            children: <Widget>[
-                             ListItem(
-                                image: NetworkImage(
-                                    'https://maps.googleapis.com/maps/api/staticmap?center=$encoded&zoom=13&size=1800x1800&maptype=roadmap&markers=color:blue%7C$encoded&key=AIzaSyAfv8IPCxhiURtrI8tDyQptGEVQoOl0G3c'),
-                                title: party.name,
-                                subtitle: nbMembersString,
-                                onTap: () {
-                                  Provider.of<Party>(context, listen: false)
-                                      .members = party.members;
-                                  Provider.of<Party>(context, listen: false)
-                                      .id = party.id;
-                                  Provider.of<Party>(context, listen: false)
-                                      .address = party.address;
-                                  Provider.of<Party>(context, listen: false)
-                                      .name = party.name;
-                                  Navigator.of(context).pushNamed(partyDetail);
-                                },
-                              ),
-                            ],
-                          );
-                        } else {
-                          if (snapshot.hasError) {
-                            print(snapshot.error);
+                            return Column(
+                              children: <Widget>[
+                                ListItem(
+                                  image: NetworkImage(
+                                      'https://maps.googleapis.com/maps/api/staticmap?center=$encoded&zoom=13&size=1800x1800&maptype=roadmap&markers=color:blue%7C$encoded&key=AIzaSyAfv8IPCxhiURtrI8tDyQptGEVQoOl0G3c'),
+                                  title: party.name,
+                                  subtitle: nbMembersString,
+                                  onTap: () {
+                                    Provider.of<Party>(context, listen: false)
+                                        .members = party.members;
+                                    Provider.of<Party>(context, listen: false)
+                                        .id = party.id;
+                                    Provider.of<Party>(context, listen: false)
+                                        .address = party.address;
+                                    Provider.of<Party>(context, listen: false)
+                                        .name = party.name;
+                                    Navigator.of(context)
+                                        .pushNamed(partyDetail);
+                                  },
+                                ),
+                              ],
+                            );
+                          } else {
+                            if (snapshot.hasError) print(snapshot.error);
+                            return const Text('');
                           }
-                          return const Text('');
-                        }
-                      },
-                    ),
-                    actions: <Widget>[
-                      IconSlideAction(
-                        caption: 'Delete',
-                        color: Colors.red,
-                        icon: Icons.delete,
-                        onTap: () => print('Delete'),
+                        },
                       ),
-                    ],
+                      actions: <Widget>[
+                        IconSlideAction(
+                          caption: 'Delete',
+                          color: Colors.red,
+                          icon: Icons.delete,
+                          onTap: () {
+                            ApiService.unsubscribeToParty(Provider.of<User>(context, listen: false).uid, user.invitations[index]);
+                            setState(() {
+                              user.invitations.removeAt(index);
+                            });
+                          }
+                        ),
+                      ],
                   );
                 });
           } else {

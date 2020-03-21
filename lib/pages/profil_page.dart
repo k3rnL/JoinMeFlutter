@@ -14,12 +14,12 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  File _avatar;
+//  File _avatar;
 
   void getImage() {
     ImagePicker.pickImage(source: ImageSource.gallery).then((File image) {
       setState(() {
-        _avatar = image;
+//        _avatar = image;
       });
     });
   }
