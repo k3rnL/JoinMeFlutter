@@ -3,7 +3,6 @@ import 'package:join_me/components/button.dart';
 import 'package:join_me/components/list_item.dart';
 import 'package:join_me/components/static_map.dart';
 import 'package:join_me/models/party.dart';
-import 'package:join_me/services/api_service.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
