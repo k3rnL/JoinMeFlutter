@@ -69,7 +69,8 @@ class _ListPartyPage extends State<ListPartyPage> {
                                 ],
                               );
                             } else {
-                              if (snapshot.hasError) print(snapshot.error);
+                              if (snapshot.hasError)
+                                print(snapshot.error);
                               return const Text('');
                             }
                           },
@@ -101,11 +102,10 @@ class _ListPartyPage extends State<ListPartyPage> {
     );
   }
 
-  Future<Null> _handleRefresh() async {
+  Future<void> _handleRefresh() async {
     final User userTmp = await ApiService.getUser(Provider.of<User>(context, listen: false).uid);
     setState(() {
       user = userTmp;
     });
-    return null;
   }
 }
