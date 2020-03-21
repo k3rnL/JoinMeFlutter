@@ -50,5 +50,5 @@ ThemeData buildDarkTheme() {
               const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
           filled: true,
           fillColor: Background.withOpacity(1.0),
-          hintStyle: TextStyle(color: Colors.grey)));
+          hintStyle: const TextStyle(color: Colors.grey)));
 }

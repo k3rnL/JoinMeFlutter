@@ -1,6 +1,5 @@
-import 'package:day_night_switch/day_night_switch.dart';
 import 'dart:io';
-
+import 'package:day_night_switch/day_night_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:join_me/components/alert_dialog_profile.dart';

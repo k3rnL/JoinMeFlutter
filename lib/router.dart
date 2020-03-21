@@ -33,7 +33,7 @@ class Router {
       case partyCreationMapRoute:
         return MaterialPageRoute<PartyCreationPage>(builder: (_) => PartyCreationPage());
       case listPartyRoute:
-        return MaterialPageRoute<ListPartyPage>(builder: (_) => ListPartyPage());
+        return MaterialPageRoute<ListPartyPage>(builder: (_) => const ListPartyPage());
       case partyDetail:
         return MaterialPageRoute<PartyDetailPage>(builder: (_) => PartyDetailPage());
       default:

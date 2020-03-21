@@ -66,7 +66,8 @@ class _ListPartyPage extends State<ListPartyPage> {
                               ],
                             );
                           } else {
-                            if (snapshot.hasError) print(snapshot.error);
+                            if (snapshot.hasError)
+                              print(snapshot.error);
                             return const Text('');
                           }
                         },

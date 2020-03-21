@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:join_me/components/button.dart';
 import 'package:join_me/components/circle_image_button.dart';
 import 'package:join_me/router.dart';
-import 'package:join_me/themes/map_theme.dart';
 import 'package:provider/provider.dart';
-import 'package:touchable_opacity/touchable_opacity.dart';
 import '../components/map.dart';
 import '../models/party.dart';
 
