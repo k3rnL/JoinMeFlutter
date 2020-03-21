@@ -37,6 +37,13 @@ class _MapState extends State<Map> {
   Widget build(BuildContext context) {
     final String theme = Provider.of<MapTheme>(context).theme;
 
+    Provider.of<MapTheme>(context).addListener(() async {
+      (await _controller.future).setMapStyle(Provider.of<MapTheme>(context, listen: false).theme);
+      setState(() {
+
+      });
+    });
+
     return Stack(
       children: <Widget>[
         Text(theme),
