@@ -20,6 +20,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   void getImage() {
     ImagePicker.pickImage(source: ImageSource.gallery).then((File image) {
+      ApiService.updateProfilePicture(image, 'D1fpjoesx4XCRLBicyirJePqihz2');
       setState(() {
 //        _avatar = image;
       });

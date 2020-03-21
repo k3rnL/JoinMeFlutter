@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 import 'package:join_me/models/party.dart';
 import 'package:join_me/models/user.dart';
 
@@ -102,5 +104,15 @@ class ApiService {
       return true;
     }
     return false;
+  }
+
+  static Future<bool> updateProfilePicture(File imageProfile, String uid) async {
+      final http.Response response = await http.post(API_URL + '/users/' + uid + '/picture' ,body: {'picture': imageProfile.readAsBytesSync()});
+      print('salut');
+      if (response.statusCode == 200) {
+        print('OUI');
+        return true;
+      }
+      return false;
   }
 }
