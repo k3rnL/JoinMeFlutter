@@ -8,6 +8,7 @@ import 'package:join_me/components/list_item.dart';
 import 'package:join_me/models/user.dart';
 import 'package:join_me/themes/map_theme.dart';
 import 'package:provider/provider.dart';
+import 'package:join_me/services/api_service.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -69,6 +70,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   Provider.of<User>(context, listen: false).firstName,
                   (String value) {
                 Provider.of<User>(context, listen: false).firstName = value;
+                ApiService.updateUserInfo(Provider.of<User>(context, listen: false));
               }),
             ),
             ListItem(
@@ -77,8 +79,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 onTap: () => showPopup(context, 'Lastname',
                         Provider.of<User>(context, listen: false).lastName,
                         (String value) {
-                      Provider.of<User>(context, listen: false).lastName =
-                          value;
+                      Provider.of<User>(context, listen: false).lastName = value;
+                      ApiService.updateUserInfo(Provider.of<User>(context, listen: false));
                     })),
             ListItem(
               title: 'Phone',

@@ -95,4 +95,12 @@ class ApiService {
       print('unsubscribeToParty Response body: ${response.body}');
     }
   }
+
+  static Future<bool> updateUserInfo(User user) async {
+    final http.Response response = await http.patch(API_URL + '/users/' + user.uid ,body: jsonEncode(user));
+    if (response.statusCode == 200) {
+      return true;
+    }
+    return false;
+  }
 }
