@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:join_me/components/InsideAlertDialogProfil.dart';
-import 'package:touchable_opacity/touchable_opacity.dart';
 
 class ListItem extends StatelessWidget {
   const ListItem({this.title, this.subtitle, this.onTap, this.image});
