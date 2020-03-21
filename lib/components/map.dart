@@ -35,9 +35,12 @@ class _MapState extends State<Map> {
 
   @override
   Widget build(BuildContext context) {
+    String theme = Provider.of<MapTheme>(context).theme;
+
     Provider.of<MapTheme>(context).addListener(() async {
       (await _controller.future).setMapStyle(Provider.of<MapTheme>(context, listen: false).theme);
-      setState(() {});
+      setState(() {theme = Provider.of<MapTheme>(context, listen: false).theme;});
+      print('cococuocucocuou' + Provider.of<MapTheme>(context, listen: false).isLight().toString());
     });
 
     return Stack(
@@ -48,7 +51,7 @@ class _MapState extends State<Map> {
           onMapCreated: (GoogleMapController controller) {
             _controller.complete(controller);
             _getDeviceLocation();
-            controller.setMapStyle(Provider.of<MapTheme>(context, listen: false).theme);
+            controller.setMapStyle(theme);
           },
           onCameraMove: (CameraPosition camera) {
             widget.onRegionChanged(camera.target);
