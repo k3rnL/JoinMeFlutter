@@ -55,7 +55,7 @@ class Button extends StatelessWidget {
                 label,
                 style: TextStyle(
                   fontSize: 16,
-                  color: Colors.white,
+                  color: Theme.of(context).accentTextTheme.body1.color
                 ),
               )))
             ],

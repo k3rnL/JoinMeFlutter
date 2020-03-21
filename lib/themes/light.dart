@@ -13,6 +13,8 @@ const Color SecondaryColorDark = Color(0xFFA90085);
 const Color Background = Color(0xFFfffdf7);
 const Color TextColor = Color(0xFF004d40);
 
+const Color ButtonColor = Colors.black;
+
 ThemeData buildLightTheme() {
   final ThemeData base = ThemeData.light();
 
@@ -27,6 +29,7 @@ ThemeData buildLightTheme() {
       buttonColor: SecondaryColor,
       textTheme: ButtonTextTheme.primary,
     ),
+    buttonColor: ButtonColor,
     scaffoldBackgroundColor: Background,
     cardColor: Background,
     textSelectionColor: PrimaryColorLight,

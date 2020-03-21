@@ -36,16 +36,23 @@ class PartyCreationPage extends StatelessWidget {
             StaticMap(
                 address: Provider.of<Party>(context).address,
                 size: Size(MediaQuery.of(context).size.width, 250)),
-            const SizedBox(height: 20,),
+            const SizedBox(
+              height: 20,
+            ),
             Button(
               label: 'Confirm',
-              onPressed: () => createEvent(context, Provider.of<Party>(context, listen: false)),
+              onPressed: () => createEvent(
+                  context, Provider.of<Party>(context, listen: false)),
             ),
-            const SizedBox(height: 10,),
+            const SizedBox(
+              height: 10,
+            ),
             const Text(
               'Create your event !',
             ),
-            const SizedBox(height: 10,),
+            const SizedBox(
+              height: 10,
+            ),
             TextInput(
               hintText: 'Name your party !',
               onTextChanged: (String text) {
@@ -54,12 +61,15 @@ class PartyCreationPage extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             const TextInput(hintText: 'Search contact'),
-            const SizedBox(height: 10,),
+            const SizedBox(
+              height: 10,
+            ),
             const Text(
               '0 contacts selected.',
             ),
-            const SizedBox(height: 10,),
-
+            const SizedBox(
+              height: 10,
+            ),
             Contacts(),
           ],
         ),

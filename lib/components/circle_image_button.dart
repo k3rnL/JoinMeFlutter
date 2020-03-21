@@ -2,17 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:touchable_opacity/touchable_opacity.dart';
 
 class CircleImageButton extends StatelessWidget {
-  const CircleImageButton({this.image, this.onTap});
+  CircleImageButton({this.image, this.onTap});
 
-  final Image image;
+  final Widget image;
   final VoidCallback onTap;
+
+//  final Color color = Theme.of(context).buttonColor;
 
   @override
   Widget build(BuildContext context) {
-    return TouchableOpacity(
-      activeOpacity: 0,
-      onTap: onTap,
-      child: image,
+    return FlatButton(
+      shape: StadiumBorder(),
+        onPressed: onTap,
+        child: image
     );
   }
 }

@@ -5,9 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flare_flutter/flare_actor.dart';
+import 'package:flutter/services.dart';
 import 'package:join_me/models/user.dart';
 import 'package:join_me/router.dart';
 import 'package:join_me/services/api_service.dart';
+import 'package:join_me/themes/map_theme.dart';
 import 'package:provider/provider.dart';
 
 class SplashPage extends StatefulWidget {
