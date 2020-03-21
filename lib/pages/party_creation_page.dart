@@ -5,12 +5,21 @@ import 'package:join_me/components/static_map.dart';
 import 'package:join_me/components/text_input.dart';
 import 'package:join_me/models/party.dart';
 import 'package:join_me/models/user.dart';
+import 'package:join_me/router.dart';
 import 'package:join_me/services/api_service.dart';
 import 'package:provider/provider.dart';
 
 Future<void> createEvent(BuildContext context, Party party) async {
   final String id = await ApiService.createParty(party.name, party.address);
   ApiService.addUsersToPartyByUid(<String>[Provider.of<User>(context, listen: false).uid], id);
+
+  final Party partyAfter = await ApiService.getParty(id);
+
+  Provider.of<Party>(context, listen: false).members = partyAfter.members;
+  Provider.of<Party>(context, listen: false).id = partyAfter.id;
+  Provider.of<Party>(context, listen: false).address = partyAfter.address;
+  Provider.of<Party>(context, listen: false).name = partyAfter.name;
+  Navigator.of(context).popAndPushNamed(partyDetail);
 }
 
 class PartyCreationPage extends StatelessWidget {

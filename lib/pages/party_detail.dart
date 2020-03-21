@@ -3,20 +3,16 @@ import 'package:join_me/components/button.dart';
 import 'package:join_me/components/list_item.dart';
 import 'package:join_me/components/static_map.dart';
 import 'package:join_me/models/party.dart';
-import 'package:join_me/services/api_service.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class PartyDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: FutureBuilder<Party>(
-        future: ApiService.getParty('96127753'),
-        builder: (BuildContext context, AsyncSnapshot<Party> snapshot) {
-          if (snapshot.hasData) {
-            final Party party = snapshot.data;
+    final Party party = Provider.of<Party>(context, listen: false);
 
-            return Column(
+    return Scaffold(
+      body: Column(
               children: <Widget>[
                 StaticMap(
                   address: party.address,
@@ -39,14 +35,7 @@ class PartyDetailPage extends StatelessWidget {
                   ),
                 ),
               ],
-            );
-          } else {
-            if (snapshot.hasError)
-              print(snapshot.error);
-            return const Text('lol');
-          }
-        },
-      ),
+            ),
     );
   }
 

@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:join_me/components/alert_dialog_profile.dart';
 import 'package:join_me/components/button.dart';
 import 'package:join_me/components/list_item.dart';
@@ -11,6 +14,15 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  File _avatar;
+
+  void getImage() {
+    ImagePicker.pickImage(source: ImageSource.gallery).then((File image) {
+      setState(() {
+        _avatar = image;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +47,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 Positioned.fill(
                   child: Align(
                     child: GestureDetector(
+                      onTap: getImage,
                       child: CircleAvatar(
                           radius: 72,
                           backgroundColor: Colors.white,
