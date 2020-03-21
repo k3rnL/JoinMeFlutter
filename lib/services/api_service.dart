@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
-import 'package:image_picker/image_picker.dart';
 import 'package:join_me/models/party.dart';
 import 'package:join_me/models/user.dart';
 
@@ -107,11 +106,29 @@ class ApiService {
   }
 
   static Future<bool> updateProfilePicture(File imageProfile, String uid) async {
-      final http.Response response = await http.post(API_URL + '/users/' + uid + '/picture' ,body: jsonEncode(<String, dynamic>{'picture': base64Encode(imageProfile.readAsBytesSync())}));
-      print('salut');
+
+    // open a bytestream
+    final http.ByteStream stream = http.ByteStream(imageProfile.openRead());
+    // get file length
+    final int length = await imageProfile.length();
+
+    // string to uri
+    final Uri uri = Uri.parse(API_URL + '/users/' + uid + '/picture');
+
+    // create multipart request
+    final http.MultipartRequest request = http.MultipartRequest('POST', uri);
+
+    // multipart that takes file
+    final http.MultipartFile multipartFile = http.MultipartFile('picture', stream, length,
+        filename: imageProfile.path);
+
+    // add file to multipart
+    request.files.add(multipartFile);
+    final http.StreamedResponse response = await request.send();
+
       if (response.statusCode == 200) {
-        print('OUI');
         return true;
+      } else {
       }
       return false;
   }

@@ -16,19 +16,19 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-//  File _avatar;
 
   void getImage() {
     ImagePicker.pickImage(source: ImageSource.gallery).then((File image) {
-      ApiService.updateProfilePicture(image, 'D1fpjoesx4XCRLBicyirJePqihz2');
-      setState(() {
-//        _avatar = image;
-      });
+      ApiService.updateProfilePicture(image, Provider.of<User>(context, listen: false).uid);
+//      final User user = await ApiService.getUser(Provider.of<User>(context, listen: false).uid);
+//      Provider.of<User>(context, listen: false).picture = user.picture;
+      Provider.of<User>(context, listen: false).retrieveData();
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    print('url = ' + Provider.of<User>(context).picture);
     return Scaffold(
       body: Center(
         // Center is a layout widget. It takes a single child and positions it

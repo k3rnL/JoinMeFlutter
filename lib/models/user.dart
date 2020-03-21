@@ -16,7 +16,9 @@ class User with ChangeNotifier {
   Future<void> retrieveData() async {
     final User user = await ApiService.getUser(uid);
     phone = user.phone;
+    picture = user.picture;
     invitations = user.invitations;
+    notifyListeners();
   }
 
   dynamic toJson() => <String, dynamic>{
