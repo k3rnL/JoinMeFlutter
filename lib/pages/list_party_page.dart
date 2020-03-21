@@ -18,7 +18,8 @@ class ListPartyPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder<User>(
-        future: ApiService.getUser(Provider.of<User>(context, listen: false).uid),
+        future:
+            ApiService.getUser(Provider.of<User>(context, listen: false).uid),
         builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
           if (snapshot.hasData) {
             final User user = snapshot.data;
@@ -26,35 +27,47 @@ class ListPartyPage extends StatelessWidget {
             return ListView.builder(
                 itemCount: user.invitations.length,
                 itemBuilder: (BuildContext ctxt, int index) {
-                  return FutureBuilder<Party>(
-                    future: ApiService.getParty(user.invitations[index]),
-                    builder: (BuildContext context, AsyncSnapshot<Party> snapshot) {
-                      if (snapshot.hasData) {
-                        final Party party = snapshot.data;
-                        final String nbMembersString = party.members.length.toString() + ' members';
-                        final String encoded = Uri.encodeFull(party.address);
+                  return Dismissible(
+                      key: Key(user.invitations[index]),
+                      onDismissed: (DismissDirection direction) {
+                        user.invitations.removeAt(index);
+                        Scaffold.of(context).showSnackBar(const SnackBar(
+                          content: Text('item supprimé'),
+                        ));
+                      },
+                      child: FutureBuilder<Party>(
+                        future: ApiService.getParty(user.invitations[index]),
+                        builder: (BuildContext context,
+                            AsyncSnapshot<Party> snapshot) {
+                          if (snapshot.hasData) {
+                            final Party party = snapshot.data;
+                            final String nbMembersString =
+                                party.members.length.toString() + ' members';
+                            final String encoded =
+                                Uri.encodeFull(party.address);
 
-                        return Column(
-                          children: <Widget>[
-                            ListItem(
-                              image: NetworkImage('https://maps.googleapis.com/maps/api/staticmap?center=$encoded&zoom=13&size=1800x1800&maptype=roadmap&markers=color:blue%7C$encoded&key=AIzaSyAfv8IPCxhiURtrI8tDyQptGEVQoOl0G3c'),
-                              title: party.name,
-                              subtitle: nbMembersString,
-                              onTap: () {
-                                print('Mettre lappel pour party Detail');
-                              },
-                            ),
-                          ],
-                        );
-                      } else {
-                        if (snapshot.hasError)
-                          print(snapshot.error);
-                        return const Text('');
-                      }
-                    },
-                  );
-                }
-            );
+                            return Column(
+                              children: <Widget>[
+                                ListItem(
+                                  image: NetworkImage(
+                                      'https://maps.googleapis.com/maps/api/staticmap?center=$encoded&zoom=13&size=1800x1800&maptype=roadmap&markers=color:blue%7C$encoded&key=AIzaSyAfv8IPCxhiURtrI8tDyQptGEVQoOl0G3c'),
+                                  title: party.name,
+                                  subtitle: nbMembersString,
+                                  onTap: () {
+                                    print('Mettre lappel pour party Detail');
+                                  },
+                                ),
+                              ],
+                            );
+                          } else {
+                            if (snapshot.hasError) {
+                              print(snapshot.error);
+                            }
+                            return const Text('');
+                          }
+                        },
+                      ));
+                });
           } else {
             if (snapshot.hasError) {
               print(snapshot.error);
