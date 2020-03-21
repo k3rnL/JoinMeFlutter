@@ -9,6 +9,8 @@ class User with ChangeNotifier {
   String uid;
   String phone;
   String picture;
+  String firstName;
+  String lastName;
   List<String> invitations;
 
   Future<void> retrieveData() async {
@@ -19,6 +21,8 @@ class User with ChangeNotifier {
 
   dynamic toJson() => <String, dynamic>{
         'uid': uid,
+        'firstname': firstName,
+        'lastname': lastName,
         'phone': phone,
         'picture': picture,
         'invitations': invitations,
@@ -29,6 +33,9 @@ class User with ChangeNotifier {
     final User user = User();
 
     user.uid = object['id'];
+    user.firstName = object['firstname'];
+    user.lastName = object['lastname'];
+    print(user.firstName);
 
     final List<dynamic> invitationsRaw = object['invitations'] as List<dynamic>;
     user.invitations = invitationsRaw

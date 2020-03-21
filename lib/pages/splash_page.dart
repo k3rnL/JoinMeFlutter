@@ -96,6 +96,8 @@ class _SplashPageState extends State<SplashPage> {
       Provider.of<User>(context, listen: false).uid = currentUser.uid;
       Provider.of<User>(context, listen: false).phone = userDoc.data['phone'];
       Provider.of<User>(context, listen: false).picture = userDoc.data['picture'];
+      Provider.of<User>(context, listen: false).firstName = userDoc.data['firstname'];
+      Provider.of<User>(context, listen: false).lastName = userDoc.data['lastname'];
       return true;
     }
   }
