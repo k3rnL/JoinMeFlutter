@@ -35,16 +35,11 @@ class _MapState extends State<Map> {
 
   @override
   Widget build(BuildContext context) {
-    String theme = Provider.of<MapTheme>(context).theme;
-
-    Provider.of<MapTheme>(context).addListener(() async {
-      (await _controller.future).setMapStyle(Provider.of<MapTheme>(context, listen: false).theme);
-      setState(() {theme = Provider.of<MapTheme>(context, listen: false).theme;});
-      print('cococuocucocuou' + Provider.of<MapTheme>(context, listen: false).isLight().toString());
-    });
+    final String theme = Provider.of<MapTheme>(context).theme;
 
     return Stack(
       children: <Widget>[
+        Text(theme),
         GoogleMap(
           mapType: MapType.normal,
           initialCameraPosition: Map._kGooglePlex,

@@ -58,7 +58,7 @@ Future<void> loadThemeSettings(MapTheme theme) async {
 
   final String dark = await rootBundle.loadString('assets/themes/map_dark.json');
   theme.themeDark = dark;
-
+print(theme.themeDark);
   if (prefs.getBool('isDarkTheme'))
     theme.setTheme(false);
   else
