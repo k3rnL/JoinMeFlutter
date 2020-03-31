@@ -2,7 +2,27 @@ import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-class Contacts extends StatelessWidget {
+class Contacts extends StatefulWidget {
+  const Contacts({this.selectedContactsChanged, this.filter = ''});
+
+  final Function(List<Contact>) selectedContactsChanged;
+  final String filter;
+
+  @override
+  _ContactsState createState() => _ContactsState();
+}
+
+class _ContactsState extends State<Contacts> {
+
+  @override
+  void initState() {
+    super.initState();
+    selectedContacts = <String, bool>{};
+  }
+
+  Map<String, Contact> contacts;
+  Map<String, bool>  selectedContacts;
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<bool>(
@@ -20,12 +40,16 @@ class Contacts extends StatelessWidget {
             builder:
                 (BuildContext context, AsyncSnapshot<List<Contact>> snapshot) {
               if (snapshot.hasData) {
-                final List<Contact> contact = snapshot.data;
+                contacts = Map<String, Contact>.fromIterable(snapshot.data, key: (dynamic c) => c.identifier, value: (dynamic c) => c);
+                List<Contact> filtered = contacts.values.where((Contact c) {
+                  return c.displayName.toLowerCase().contains(widget.filter.toLowerCase());
+                }).toList();
                 return Expanded(
                   child: ListView.builder(
                     padding: const EdgeInsets.all(8),
-                    itemCount: 100,
+                    itemCount: filtered.length,
                     itemBuilder: (BuildContext context, int index) {
+                      final Contact contact = filtered[index];
                       return Column(
                         children: <Widget>[
                           Container(
@@ -33,9 +57,21 @@ class Contacts extends StatelessWidget {
                             child: Row(
                               children: <Widget>[
                                 const SizedBox(width: 30),
-                                Checkbox(onChanged: (bool value) {}, value: false,),
+                                Checkbox(onChanged: (bool value) {
+                                  final List<Contact> list = <Contact>[];
+                                  selectedContacts[contact.identifier] = value;
+                                  selectedContacts.forEach((String id, bool selected) {
+                                    if (selected)
+                                      list.add(contacts[id]);
+                                  });
+                                  widget.selectedContactsChanged(list);
+                                  print(list.runtimeType);
+                                  setState(() {
+                                    selectedContacts[contact.identifier] = value;
+                                  });
+                                }, value: selectedContacts[contact.identifier] == null ? false : selectedContacts[contact.identifier],),
                                 const SizedBox(width: 30),
-                                Text(contact[index].displayName),
+                                Text(contact.displayName),
                               ],
                             ),
                           ),
@@ -52,6 +88,7 @@ class Contacts extends StatelessWidget {
       },
     );
   }
+
 }
 
 Future<bool> getContactsPermissions() async {

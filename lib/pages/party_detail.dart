@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:join_me/components/button.dart';
 import 'package:join_me/components/list_item.dart';
@@ -28,8 +29,12 @@ class PartyDetailPage extends StatelessWidget {
                     itemCount: party.members.length,
                     itemBuilder: (BuildContext context, int index) {
                       return ListItem(
-                        title: party.members[index].phone,
-                        subtitle: '',
+                        title: '${party.members[index].firstName} ${party.members[index].lastName}',
+                        subtitle: party.members[index].phone,
+                        image: NetworkImage(party.members[index].picture),
+                        onTap: () {
+                          launch('tel://${party.members[index].phone}');
+                        },
                       );
                     },
                   ),
