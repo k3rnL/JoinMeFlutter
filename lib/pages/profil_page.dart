@@ -16,99 +16,105 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  User user;
+  File newImage;
 
   void getImage() {
-    ImagePicker.pickImage(source: ImageSource.gallery).then((File image) {
-      ApiService.updateProfilePicture(image, Provider.of<User>(context, listen: false).uid);
-//      final User user = await ApiService.getUser(Provider.of<User>(context, listen: false).uid);
-//      Provider.of<User>(context, listen: false).picture = user.picture;
-      Provider.of<User>(context, listen: false).retrieveData();
+    ImagePicker.pickImage(source: ImageSource.gallery).then((File image) async {
+      await ApiService.updateProfilePicture(image, Provider.of<User>(context, listen: false).uid);
+      print('image avant = ' + Provider.of<User>(context, listen: false).picture);
+      await Provider.of<User>(context, listen: false).retrieveData();
+      print('image après = ' + Provider.of<User>(context, listen: false).picture);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    print('url = ' + Provider.of<User>(context).picture);
     return Scaffold(
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
+        body: Center(
+          // Center is a layout widget. It takes a single child and positions it
+          // in the middle of the parent.
 
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Stack(
-              children: <Widget>[
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: 225,
-                  child: const Image(
-                    image: AssetImage('assets/images/profilBackground.jpg'),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                Positioned.fill(
-                  child: Align(
-                    child: GestureDetector(
-                      onTap: getImage,
-                      child: CircleAvatar(
-                          radius: 72,
-                          backgroundColor: Colors.white,
-                          child: CircleAvatar(
-                            radius: 70,
-                            backgroundImage:
-                                NetworkImage(Provider.of<User>(context).picture),
-                          )),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Stack(
+                children: <Widget>[
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 225,
+                    child: const Image(
+                      image: AssetImage('assets/images/profilBackground.jpg'),
+                      fit: BoxFit.cover,
                     ),
                   ),
-                ),
-              ],
-            ),
-            ListItem(
-              title: 'Fistname',
-              subtitle: Provider.of<User>(context).firstName,
-              onTap: () => showPopup(context, 'Firstname',
-                  Provider.of<User>(context, listen: false).firstName,
-                  (String value) {
-                Provider.of<User>(context, listen: false).firstName = value;
-                ApiService.updateUserInfo(Provider.of<User>(context, listen: false));
-              }),
-            ),
-            ListItem(
-                title: 'Lastname',
-                subtitle: Provider.of<User>(context).lastName,
-                onTap: () => showPopup(context, 'Lastname',
-                        Provider.of<User>(context, listen: false).lastName,
+                  Positioned.fill(
+                    child: Align(
+                      child: GestureDetector(
+                        onTap: getImage,
+                        child: CircleAvatar(
+                            radius: 72,
+                            backgroundColor: Colors.white,
+                            child: Container(
+                              decoration: const BoxDecoration(shape: BoxShape.circle),
+                              child: CircleAvatar(
+                                radius: 70,
+                                backgroundImage:
+                                NetworkImage(Provider.of<User>(context).picture),
+                              )
+                            ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              ListItem(
+                title: 'Fistname',
+                subtitle: Provider.of<User>(context).firstName,
+                onTap: () => showPopup(context, 'Firstname',
+                    Provider.of<User>(context, listen: false).firstName,
                         (String value) {
-                      Provider.of<User>(context, listen: false).lastName = value;
-                      ApiService.updateUserInfo(Provider.of<User>(context, listen: false));
-                    })),
-            ListItem(
-              title: 'Phone',
-              subtitle: Provider.of<User>(context).phone,
-            ),
-            const SizedBox(
-              height: 40,
-            ),
-            DayNightSwitch(
-              value: !Provider.of<MapTheme>(context, listen: false).isLight(),
-              moonImage: const AssetImage('assets/images/moon.png'),
-              onChanged: (_) {
-                Provider.of<MapTheme>(context, listen: false)
-                    .switchTheme(save: true);
-              },
-            ),
-            const SizedBox(
-              height: 120,
-            ),
-            const Button(
-              onPressed: null,
-              label: 'Log out',
-            ),
-          ],
-        ),
-      ),
-    );
+                      Provider.of<User>(context, listen: false).firstName = value;
+                      ApiService.updateUserInfo(
+                          Provider.of<User>(context, listen: false));
+                    }),
+              ),
+              ListItem(
+                  title: 'Lastname',
+                  subtitle: Provider.of<User>(context).lastName,
+                  onTap: () => showPopup(context, 'Lastname',
+                      Provider.of<User>(context, listen: false).lastName,
+                          (String value) {
+                        Provider.of<User>(context, listen: false).lastName = value;
+                        ApiService.updateUserInfo(
+                            Provider.of<User>(context, listen: false));
+                      })),
+              ListItem(
+                title: 'Phone',
+                subtitle: Provider.of<User>(context).phone,
+              ),
+              const SizedBox(
+                height: 40,
+              ),
+              DayNightSwitch(
+                value: !Provider.of<MapTheme>(context, listen: false).isLight(),
+                moonImage: const AssetImage('assets/images/moon.png'),
+                onChanged: (_) {
+                  Provider.of<MapTheme>(context, listen: false)
+                      .switchTheme(save: true);
+                },
+              ),
+              const SizedBox(
+                height: 120,
+              ),
+              const Button(
+                onPressed: null,
+                label: 'Log out',
+              ),
+            ],
+          ),
+        ));
   }
 }
 

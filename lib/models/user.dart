@@ -17,6 +17,8 @@ class User with ChangeNotifier {
     final User user = await ApiService.getUser(uid);
     phone = user.phone;
     picture = user.picture;
+    firstName = user.firstName;
+    lastName = user.lastName;
     invitations = user.invitations;
     notifyListeners();
   }
@@ -37,6 +39,7 @@ class User with ChangeNotifier {
     user.uid = object['id'];
     user.firstName = object['firstname'];
     user.lastName = object['lastname'];
+    user.picture = object['picture'];
 
     final List<dynamic> invitationsRaw = object['invitations'] as List<dynamic>;
     user.invitations = invitationsRaw
