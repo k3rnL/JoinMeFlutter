@@ -22,13 +22,12 @@ class ApiService {
     return '';
   }
 
-  static Future<void> addUsersToParty(List<String> phones, int partyId) async {
-    final List<User> users = <User>[];
-    for (String phone in phones) {
+  static Future<void> addUsersToParty(List<String> phones, String partyId) async {
+    final List<User> users = phones.map((String phone) {
       final User user = User();
       user.phone = phone;
-      users.add(user);
-    }
+      return user;
+    }).toList();
     final http.Response response = await http.patch(
         API_URL + '/party/' + partyId.toString(),
         body: jsonEncode(users));

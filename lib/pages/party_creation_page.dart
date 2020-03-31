@@ -1,3 +1,4 @@
+import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:join_me/components/button.dart';
 import 'package:join_me/components/contacts.dart';
@@ -9,20 +10,39 @@ import 'package:join_me/router.dart';
 import 'package:join_me/services/api_service.dart';
 import 'package:provider/provider.dart';
 
-Future<void> createEvent(BuildContext context, Party party) async {
+Future<void> createEvent(BuildContext context, Party party, List<Contact> selectedContact) async {
   final String id = await ApiService.createParty(party.name, party.address);
-  ApiService.addUsersToPartyByUid(<String>[Provider.of<User>(context, listen: false).uid], id);
+  ApiService.addUsersToPartyByUid(
+      <String>[Provider.of<User>(context, listen: false).uid], id);
 
   final Party partyAfter = await ApiService.getParty(id);
+  print(selectedContact.runtimeType);
+  final List<String> phoneNumberToAdd = selectedContact.map<String>((Contact c) => c.phones.first.value).toList();
+  ApiService.addUsersToParty(phoneNumberToAdd, id);
 
   Provider.of<Party>(context, listen: false).members = partyAfter.members;
   Provider.of<Party>(context, listen: false).id = partyAfter.id;
   Provider.of<Party>(context, listen: false).address = partyAfter.address;
   Provider.of<Party>(context, listen: false).name = partyAfter.name;
-  Navigator.of(context).popAndPushNamed(partyDetail);
+//  Navigator.of(context).popAndPushNamed(partyDetail);
 }
 
-class PartyCreationPage extends StatelessWidget {
+class PartyCreationPage extends StatefulWidget {
+  @override
+  _PartyCreationPageState createState() => _PartyCreationPageState();
+}
+
+class _PartyCreationPageState extends State<PartyCreationPage> {
+  List<Contact> selectedContact;
+  String filter;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedContact = <Contact>[];
+    filter = '';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,8 +61,14 @@ class PartyCreationPage extends StatelessWidget {
             ),
             Button(
               label: 'Confirm',
-              onPressed: () => createEvent(
-                  context, Provider.of<Party>(context, listen: false)),
+              onPressed: () {
+                print("coucou");
+                print(selectedContact.runtimeType);
+                print(selectedContact);
+                createEvent(
+                    context, Provider.of<Party>(context, listen: false),
+                    selectedContact);
+              },
             ),
             const SizedBox(
               height: 10,
@@ -60,17 +86,31 @@ class PartyCreationPage extends StatelessWidget {
               },
             ),
             const SizedBox(height: 20),
-            const TextInput(hintText: 'Search contact'),
+            TextInput(
+              hintText: 'Search contact',
+              onTextChanged: (String v) {
+                setState(() {
+                  filter = v;
+                });
+              },
+            ),
             const SizedBox(
               height: 10,
             ),
-            const Text(
-              '0 contacts selected.',
+            Text(
+              '${selectedContact.length} contacts selected.',
             ),
             const SizedBox(
               height: 10,
             ),
-            Contacts(),
+            Contacts(
+              filter: filter,
+              selectedContactsChanged: (List<Contact> l) {
+                setState(() {
+                  selectedContact = l;
+                });
+              },
+            ),
           ],
         ),
       ),
