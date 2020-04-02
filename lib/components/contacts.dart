@@ -13,7 +13,6 @@ class Contacts extends StatefulWidget {
 }
 
 class _ContactsState extends State<Contacts> {
-
   @override
   void initState() {
     super.initState();
@@ -21,17 +20,16 @@ class _ContactsState extends State<Contacts> {
   }
 
   Map<String, Contact> contacts;
-  Map<String, bool>  selectedContacts;
+  Map<String, bool> selectedContacts;
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<bool>(
       future: getContactsPermissions(),
       builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-
-        // Show errors
         if (snapshot.hasError || !snapshot.hasData)
-          return const Text('Something went wrong when accessing your contacts');
+          return const Text(
+              'Something went wrong when accessing your contacts');
         else if (!snapshot.data)
           return const Text('Please allow the app to access your contacts');
 
@@ -40,55 +38,67 @@ class _ContactsState extends State<Contacts> {
             builder:
                 (BuildContext context, AsyncSnapshot<List<Contact>> snapshot) {
               if (snapshot.hasData) {
-                contacts = Map<String, Contact>.fromIterable(snapshot.data, key: (dynamic c) => c.identifier, value: (dynamic c) => c);
-                List<Contact> filtered = contacts.values.where((Contact c) {
-                  return c.displayName.toLowerCase().contains(widget.filter.toLowerCase());
+                contacts = Map<String, Contact>.fromIterable(snapshot.data,
+                    key: (dynamic c) => c.identifier, value: (dynamic c) => c);
+                final List<Contact> filtered =
+                    contacts.values.where((Contact c) {
+                  final List<String> words =
+                      c.displayName.toLowerCase().split(' ');
+                  return words
+                      .any((String word) => word.startsWith(widget.filter));
                 }).toList();
-                return Expanded(
-                  child: ListView.builder(
-                    padding: const EdgeInsets.all(8),
-                    itemCount: filtered.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      final Contact contact = filtered[index];
-                      return Column(
-                        children: <Widget>[
-                          Container(
-                            height: 50,
-                            child: Row(
-                              children: <Widget>[
-                                const SizedBox(width: 30),
-                                Checkbox(onChanged: (bool value) {
+                return ListView.builder(
+                  padding: const EdgeInsets.all(8),
+                  itemCount: filtered.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final Contact contact = filtered[index];
+                    return Column(
+                      children: <Widget>[
+                        Container(
+                          height: 50,
+                          child: Row(
+                            children: <Widget>[
+                              const SizedBox(width: 30),
+                              Checkbox(
+                                onChanged: (bool value) {
                                   final List<Contact> list = <Contact>[];
                                   selectedContacts[contact.identifier] = value;
-                                  selectedContacts.forEach((String id, bool selected) {
-                                    if (selected)
-                                      list.add(contacts[id]);
+                                  selectedContacts
+                                      .forEach((String id, bool selected) {
+                                    if (selected) list.add(contacts[id]);
                                   });
                                   widget.selectedContactsChanged(list);
                                   print(list.runtimeType);
                                   setState(() {
-                                    selectedContacts[contact.identifier] = value;
+                                    selectedContacts[contact.identifier] =
+                                        value;
                                   });
-                                }, value: selectedContacts[contact.identifier] == null ? false : selectedContacts[contact.identifier],),
-                                const SizedBox(width: 30),
-                                Text(contact.displayName),
-                              ],
-                            ),
+                                },
+                                value: isSelected(contact),
+                              ),
+                              const SizedBox(width: 30),
+                              Text(contact.displayName),
+                            ],
                           ),
-                          const Divider(),
-                        ],
-                      );
-                    },
-                  ),
+                        ),
+                        const Divider(),
+                      ],
+                    );
+                  },
                 );
-              } else {
+              } else if (snapshot.hasError) {
                 return Text('Error' + snapshot.error.toString());
-              }
+              } else
+                return const Text('Loading your contacts');
             });
       },
     );
   }
 
+  bool isSelected(Contact contact) {
+    if (selectedContacts[contact.identifier] == null) return false;
+    return selectedContacts[contact.identifier];
+  }
 }
 
 Future<bool> getContactsPermissions() async {

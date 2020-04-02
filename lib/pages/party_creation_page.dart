@@ -1,4 +1,5 @@
 import 'package:contacts_service/contacts_service.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:join_me/components/button.dart';
 import 'package:join_me/components/contacts.dart';
@@ -12,19 +13,17 @@ import 'package:provider/provider.dart';
 
 Future<void> createEvent(BuildContext context, Party party, List<Contact> selectedContact) async {
   final String id = await ApiService.createParty(party.name, party.address);
-  ApiService.addUsersToPartyByUid(
+  await ApiService.addUsersToPartyByUid(
       <String>[Provider.of<User>(context, listen: false).uid], id);
 
-  final Party partyAfter = await ApiService.getParty(id);
   print(selectedContact.runtimeType);
   final List<String> phoneNumberToAdd = selectedContact.map<String>((Contact c) => c.phones.first.value).toList();
-  ApiService.addUsersToParty(phoneNumberToAdd, id);
+  await ApiService.addUsersToParty(phoneNumberToAdd, id);
 
-  Provider.of<Party>(context, listen: false).members = partyAfter.members;
-  Provider.of<Party>(context, listen: false).id = partyAfter.id;
-  Provider.of<Party>(context, listen: false).address = partyAfter.address;
-  Provider.of<Party>(context, listen: false).name = partyAfter.name;
-//  Navigator.of(context).popAndPushNamed(partyDetail);
+  final Party partyAfter = await ApiService.getParty(id);
+  Provider.of<Party>(context, listen: false).setData(partyAfter);
+
+  Navigator.of(context).popAndPushNamed(partyDetail);
 }
 
 class PartyCreationPage extends StatefulWidget {
@@ -46,12 +45,13 @@ class _PartyCreationPageState extends State<PartyCreationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
+      body: SingleChildScrollView(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
 
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             StaticMap(
                 address: Provider.of<Party>(context).address,
@@ -62,7 +62,6 @@ class _PartyCreationPageState extends State<PartyCreationPage> {
             Button(
               label: 'Confirm',
               onPressed: () {
-                print("coucou");
                 print(selectedContact.runtimeType);
                 print(selectedContact);
                 createEvent(
@@ -103,13 +102,16 @@ class _PartyCreationPageState extends State<PartyCreationPage> {
             const SizedBox(
               height: 10,
             ),
-            Contacts(
-              filter: filter,
-              selectedContactsChanged: (List<Contact> l) {
-                setState(() {
-                  selectedContact = l;
-                });
-              },
+            SizedBox(
+              height: 200,
+              child: Contacts(
+                filter: filter,
+                selectedContactsChanged: (List<Contact> l) {
+                  setState(() {
+                    selectedContact = l;
+                  });
+                },
+              ),
             ),
           ],
         ),
