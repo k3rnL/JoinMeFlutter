@@ -17,8 +17,8 @@ class User with ChangeNotifier {
     final User user = await ApiService.getUser(uid);
     phone = user.phone;
     picture = user.picture;
-    firstName = user.firstName;
     lastName = user.lastName;
+    firstName = user.firstName;
     invitations = user.invitations;
     notifyListeners();
   }

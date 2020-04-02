@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:join_me/models/user.dart';
 import 'package:join_me/services/api_service.dart';
@@ -7,10 +6,18 @@ import 'package:join_me/services/api_service.dart';
 class Party with ChangeNotifier {
   Party();
 
-  String name;
   int id;
+  String name;
   String address;
   List<User> members;
+
+  void setData(Party party) {
+    id = party.id;
+    name = party.name;
+    address = party.address;
+    members = party.members;
+    notifyListeners();
+  }
 
   dynamic toJson() =>
       // ignore: always_specify_types

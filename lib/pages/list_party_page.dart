@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:join_me/models/party.dart';
 import 'package:join_me/models/user.dart';
@@ -15,79 +16,58 @@ class ListPartyPage extends StatefulWidget {
 }
 
 class _ListPartyPage extends State<ListPartyPage> {
-  User user;
+  List<Party> parties;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FutureBuilder<User>(
-        future:
-            ApiService.getUser(Provider.of<User>(context, listen: false).uid),
-        builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
+      body: FutureBuilder<List<Party>>(
+        future: _getParties(),
+        builder: (BuildContext context, AsyncSnapshot<List<Party>> snapshot) {
           if (snapshot.hasData) {
-            user = snapshot.data;
+            parties = snapshot.data;
 
             return RefreshIndicator(
               onRefresh: _handleRefresh,
               child: ListView.builder(
-                  itemCount: user.invitations.length,
+                  itemCount: parties.length,
                   itemBuilder: (BuildContext ctxt, int index) {
+                    final Party party = parties[index];
+                    final String nbMembersString =
+                        party.members.length.toString() + ' members';
+                    final String encoded = Uri.encodeFull(party.address);
                     return Slidable(
-                      key: Key(user.invitations[index]),
-                        actionPane: const SlidableDrawerActionPane(),
-                        child: FutureBuilder<Party>(
-                          future: ApiService.getParty(user.invitations[index]),
-                          builder: (BuildContext context,
-                              AsyncSnapshot<Party> snapshot) {
-                            if (snapshot.hasData) {
-                              final Party party = snapshot.data;
-                              final String nbMembersString =
-                                  party.members.length.toString() + ' members';
-                              final String encoded =
-                                  Uri.encodeFull(party.address);
-
-                              return Column(
-                                children: <Widget>[
-                                  ListItem(
-                                    image: NetworkImage(
-                                        'https://maps.googleapis.com/maps/api/staticmap?center=$encoded&zoom=13&size=1800x1800&maptype=roadmap&markers=color:blue%7C$encoded&key=AIzaSyAfv8IPCxhiURtrI8tDyQptGEVQoOl0G3c'),
-                                    title: party.name,
-                                    subtitle: nbMembersString,
-                                    onTap: () {
-                                      Provider.of<Party>(context, listen: false)
-                                          .members = party.members;
-                                      Provider.of<Party>(context, listen: false)
-                                          .id = party.id;
-                                      Provider.of<Party>(context, listen: false)
-                                          .address = party.address;
-                                      Provider.of<Party>(context, listen: false)
-                                          .name = party.name;
-                                      Navigator.of(context)
-                                          .pushNamed(partyDetail);
-                                    },
-                                  ),
-                                ],
-                              );
-                            } else {
-                              if (snapshot.hasError)
-                                print(snapshot.error);
-                              return const Text('');
-                            }
-                          },
-                        ),
-                        actions: <Widget>[
-                          IconSlideAction(
+                      key: Key(index.toString()),
+                      actionPane: const SlidableDrawerActionPane(),
+                      child: Column(
+                        children: <Widget>[
+                          ListItem(
+                            image: NetworkImage(
+                                'https://maps.googleapis.com/maps/api/staticmap?center=$encoded&zoom=13&size=180x180&maptype=roadmap&markers=color:blue%7C$encoded&key=AIzaSyAfv8IPCxhiURtrI8tDyQptGEVQoOl0G3c'),
+                            title: party.name,
+                            subtitle: nbMembersString,
+                            onTap: () {
+                              Provider.of<Party>(context, listen: false)
+                                  .setData(party);
+                              Navigator.of(context).pushNamed(partyDetail);
+                            },
+                          ),
+                        ],
+                      ),
+                      actions: <Widget>[
+                        IconSlideAction(
                             caption: 'Delete',
                             color: Colors.red,
                             icon: Icons.delete,
                             onTap: () {
-                              ApiService.unsubscribeToParty(Provider.of<User>(context, listen: false).uid, user.invitations[index]);
+                              ApiService.unsubscribeToParty(
+                                  Provider.of<User>(context, listen: false).uid,
+                                  parties[index].id.toString());
                               setState(() {
-                                user.invitations.removeAt(index);
+                                parties.removeAt(index);
                               });
-                            }
-                          ),
-                        ],
+                            }),
+                      ],
                     );
                   }),
             );
@@ -103,9 +83,17 @@ class _ListPartyPage extends State<ListPartyPage> {
   }
 
   Future<void> _handleRefresh() async {
-    final User userTmp = await ApiService.getUser(Provider.of<User>(context, listen: false).uid);
+    final List<Party> parties = await _getParties();
     setState(() {
-      user = userTmp;
+      this.parties = parties;
     });
+  }
+
+  Future<List<Party>> _getParties() async {
+    final User user = Provider.of<User>(context, listen: false);
+    await user.retrieveData();
+    return await Stream<String>.fromIterable(user.invitations)
+        .asyncMap((String id) => ApiService.getParty(id))
+        .toList();
   }
 }
