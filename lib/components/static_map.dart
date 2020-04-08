@@ -10,7 +10,7 @@ class StaticMap extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color gradientColor = Provider.of<MapTheme>(context).isLight()
+    final Color gradientColor = Provider.of<MapTheme>(context).isLight()
         ? Colors.white.withOpacity(0.0)
         : Colors.black.withOpacity(0.0);
 
