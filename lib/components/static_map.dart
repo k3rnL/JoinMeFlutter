@@ -10,12 +10,17 @@ class StaticMap extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Color gradientColor = Provider.of<MapTheme>(context).isLight()
+        ? Colors.white.withOpacity(0.0)
+        : Colors.black.withOpacity(0.0);
+
     return Stack(children: <Widget>[
       SizedBox(
         width: size.width,
         height: size.height,
         child: Image.network(
-          Provider.of<MapTheme>(context).getStaticMapUrl(Uri.encodeFull(address)),
+          Provider.of<MapTheme>(context)
+              .getStaticMapUrl(Uri.encodeFull(address)),
           fit: BoxFit.cover,
         ),
       ),
@@ -27,7 +32,10 @@ class StaticMap extends StatelessWidget {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             stops: const <double>[0.45, 1.0],
-            colors: <Color>[Colors.black.withOpacity(0.0), Theme.of(context).backgroundColor.withOpacity(1.0)],
+            colors: <Color>[
+              gradientColor,
+              Theme.of(context).backgroundColor.withOpacity(1.0)
+            ],
             tileMode: TileMode.clamp, // repeats the gradient over the canvas
           ),
         ),

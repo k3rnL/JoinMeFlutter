@@ -23,16 +23,9 @@ class _LoginPageState extends State<LoginPage>
   void initState() {
     super.initState();
     _animationController =
-        AnimationController(duration: const Duration(seconds: 2), vsync: this)
-          ..addStatusListener((status) {
-//            if (status == AnimationStatus.completed) {
-//              _animationController.reverse();
-//            } else if (status == AnimationStatus.dismissed) {
-//              _animationController.forward();
-//            }
-          });
-    _animation =
-        CurvedAnimation(parent: _animationController, curve: Curves.easeInOutSine);
+        AnimationController(duration: const Duration(seconds: 2), vsync: this);
+    _animation = CurvedAnimation(
+        parent: _animationController, curve: Curves.easeInOutSine);
 
     Future<void>.delayed(const Duration(seconds: 1), () {
       _animationController.forward();
@@ -60,11 +53,8 @@ class _LoginPageState extends State<LoginPage>
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   const Text('Welcome to JoinMe !'),
-//                  Text(_status, style: TextStyle(color: Colors.red), textAlign: TextAlign.center,),
-                  if (_verificationId == null)
-                    ...buildPhoneInput(),
-                  if (_verificationId != null)
-                    ...buildCodeInput(),
+                  if (_verificationId == null) ...buildPhoneInput(),
+                  if (_verificationId != null) ...buildCodeInput(),
                 ],
               ),
             ),
@@ -141,7 +131,6 @@ class _LoginPageState extends State<LoginPage>
   }
 
   void _verificationCompletedAutomatically(AuthCredential creds) {
-    print('Login success !');
     FirebaseAuth.instance.signInWithCredential(creds);
     Navigator.of(context).pop();
     Navigator.of(context).popAndPushNamed(landingRoute);
@@ -159,8 +148,6 @@ class _LoginPageState extends State<LoginPage>
       errorOccurred = true;
       errorMessage = msg;
     });
-    print('Code:' + exception.code);
-    print('Failed to login ! reason : ' + exception.message);
   }
 
   void _codeSent(String verificationId, [int forceCodeResent]) {

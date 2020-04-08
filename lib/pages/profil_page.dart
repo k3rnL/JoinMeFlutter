@@ -55,7 +55,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         onTap: getImage,
                         child: CircleAvatar(
                             radius: 72,
-                            backgroundColor: Colors.white,
+                            backgroundColor: Theme.of(context).backgroundColor,
                             child: Container(
                               decoration: const BoxDecoration(shape: BoxShape.circle),
                               child: CircleAvatar(

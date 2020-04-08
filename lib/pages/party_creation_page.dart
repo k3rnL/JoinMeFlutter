@@ -13,10 +13,10 @@ import 'package:provider/provider.dart';
 
 Future<void> createEvent(BuildContext context, Party party, List<Contact> selectedContact) async {
   final String id = await ApiService.createParty(party.name, party.address);
+print('ouiiiiiiiiiiiiiiii'+party.name);
   await ApiService.addUsersToPartyByUid(
       <String>[Provider.of<User>(context, listen: false).uid], id);
 
-  print(selectedContact.runtimeType);
   final List<String> phoneNumberToAdd = selectedContact.map<String>((Contact c) => c.phones.first.value).toList();
   await ApiService.addUsersToParty(phoneNumberToAdd, id);
 
@@ -62,8 +62,10 @@ class _PartyCreationPageState extends State<PartyCreationPage> {
             Button(
               label: 'Confirm',
               onPressed: () {
-                print(selectedContact.runtimeType);
-                print(selectedContact);
+                final String name = Provider.of<Party>(context, listen: false).name;
+                if (name == null || name == '') {
+                  Provider.of<Party>(context, listen: false).name = 'My party';
+                }
                 createEvent(
                     context, Provider.of<Party>(context, listen: false),
                     selectedContact);

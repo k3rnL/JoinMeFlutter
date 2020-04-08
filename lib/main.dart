@@ -36,8 +36,6 @@ class MyApp extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.done) {
             return Consumer<MapTheme>(
               builder: (BuildContext context, MapTheme theme, Widget w) {
-                print('HERREEEEE' + theme.theme);
-
                 return MaterialApp(
                   title: 'JoinMe',
                   debugShowCheckedModeBanner: false,
@@ -70,5 +68,4 @@ Future<void> loadThemeSettings(MapTheme theme) async {
     theme.setTheme(false);
   else
     theme.setTheme(true);
-  print(theme.theme);
 }

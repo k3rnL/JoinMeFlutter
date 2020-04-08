@@ -12,9 +12,9 @@ class Map extends StatefulWidget {
 
   final void Function(LatLng) onRegionChanged;
 
-  static const CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
-    zoom: 14.4746,
+  static const CameraPosition _kFrance = CameraPosition(
+    target: LatLng(46.227638, 2.213749),
+    zoom: 5,
   );
 
   @override
@@ -30,7 +30,7 @@ class _MapState extends State<Map> {
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     final GoogleMapController controller = await _controller.future;
     controller.animateCamera(CameraUpdate.newLatLngZoom(
-        LatLng(position.latitude, position.longitude), 6));
+        LatLng(position.latitude, position.longitude), 10));
   }
 
   @override
@@ -46,10 +46,9 @@ class _MapState extends State<Map> {
 
     return Stack(
       children: <Widget>[
-        Text(theme),
         GoogleMap(
           mapType: MapType.normal,
-          initialCameraPosition: Map._kGooglePlex,
+          initialCameraPosition: Map._kFrance,
           onMapCreated: (GoogleMapController controller) {
             _controller.complete(controller);
             _getDeviceLocation();
