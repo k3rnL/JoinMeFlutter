@@ -33,20 +33,25 @@ class MyApp extends StatelessWidget {
       child: FutureBuilder<void>(
         future: loadThemeSettings(theme),
         builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
-          return Consumer<MapTheme>(
-            builder: (BuildContext context, MapTheme theme, Widget w) {
-              return MaterialApp(
-                title: 'JoinMe',
-                debugShowCheckedModeBanner: false,
-                onGenerateRoute: Router.generateRoute,
-                initialRoute: landingRoute,
-                theme: theme.theme == theme.themeLight
-                    ? buildLightTheme()
-                    : buildDarkTheme(),
-                themeMode: ThemeMode.dark,
-              );
-            },
-          );
+          if (snapshot.connectionState == ConnectionState.done) {
+            return Consumer<MapTheme>(
+              builder: (BuildContext context, MapTheme theme, Widget w) {
+                print('HERREEEEE' + theme.theme);
+
+                return MaterialApp(
+                  title: 'JoinMe',
+                  debugShowCheckedModeBanner: false,
+                  onGenerateRoute: Router.generateRoute,
+                  initialRoute: landingRoute,
+                  theme: theme.theme == theme.themeLight
+                      ? buildLightTheme()
+                      : buildDarkTheme(),
+                  themeMode: ThemeMode.dark,
+                );
+              },
+            );
+          }
+          return Container();
         },
       ),
     );
@@ -56,11 +61,14 @@ class MyApp extends StatelessWidget {
 Future<void> loadThemeSettings(MapTheme theme) async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-  final String dark = await rootBundle.loadString('assets/themes/map_dark.json');
+  final String dark =
+      await rootBundle.loadString('assets/themes/map_dark.json');
   theme.themeDark = dark;
-print(theme.themeDark);
-  if (prefs.getBool('isDarkTheme'))
+
+  final bool isDarkTheme = prefs.getBool('isDarkTheme') ?? false;
+  if (isDarkTheme)
     theme.setTheme(false);
   else
     theme.setTheme(true);
+  print(theme.theme);
 }

@@ -14,6 +14,7 @@ const Color Background = Color(0xFF000000);
 const Color TextColor = Colors.grey;
 const Color TextColorAccent = Colors.white70;
 
+const Color ErrorColor = Color(0xFFDC1419);
 const Color ButtonColor = Colors.white70;
 
 ThemeData buildDarkTheme() {

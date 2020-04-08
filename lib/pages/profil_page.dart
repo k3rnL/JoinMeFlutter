@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:day_night_switch/day_night_switch.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:join_me/components/alert_dialog_profile.dart';
@@ -108,8 +109,11 @@ class _ProfilePageState extends State<ProfilePage> {
               const SizedBox(
                 height: 120,
               ),
-              const Button(
-                onPressed: null,
+              Button(
+                onPressed: () {
+                  FirebaseAuth.instance.signOut();
+                  Navigator.of(context).pushReplacementNamed('/');
+                },
                 label: 'Log out',
               ),
             ],

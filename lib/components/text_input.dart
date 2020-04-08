@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 class TextInput extends StatelessWidget {
-  const TextInput({this.hintText = '', this.onTextChanged});
+  const TextInput({this.hintText = '', this.onTextChanged, this.error, this.controller});
 
   final Function(String) onTextChanged;
   final String hintText;
+  final bool error;
+  final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -19,18 +21,36 @@ class TextInput extends StatelessWidget {
               blurRadius: 10.0, // has the effect of softening the shadow
               spreadRadius: 0.1, // has the effect of extending the shadow
               offset: Offset(
-                3.0, // horizontal, move right 10
-                3.0, // vertical, move down 10
+                1.0, // horizontal, move right 10
+                1.0, // vertical, move down 10
               ),
             )
           ],
 //          borderRadius: new BorderRadius.all(),
 //          gradient: new LinearGradient(...),
         ),
-        child: TextField(
-          style: const TextStyle(fontSize: 16),
-          onChanged: onTextChanged,
-          decoration: InputDecoration(hintText: hintText),
+        child: Theme(
+          data: buildTheme(context),
+          child: TextField(
+            controller: controller,
+            style: const TextStyle(fontSize: 16),
+            onChanged: onTextChanged,
+            decoration: InputDecoration(hintText: hintText),
+          ),
         ));
+  }
+
+  ThemeData buildTheme(BuildContext context) {
+    if (error != null && error) {
+      return Theme.of(context).copyWith(
+        accentColor: Theme.of(context).errorColor,
+        cursorColor: Theme.of(context).errorColor
+      );
+    }
+    else {
+      return Theme.of(context).copyWith(
+
+      );
+    }
   }
 }

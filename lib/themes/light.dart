@@ -13,6 +13,7 @@ const Color SecondaryColorDark = Color(0xFFA90085);
 const Color Background = Color(0xFFfffdf7);
 const Color TextColor = Color(0xFF004d40);
 
+const Color ErrorColor = Color(0xFFDC1419);
 const Color ButtonColor = Colors.black;
 
 ThemeData buildLightTheme() {

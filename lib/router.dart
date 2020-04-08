@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:join_me/auth.dart';
 import 'package:join_me/pages/login_page.dart';
 import 'package:join_me/pages/party_detail.dart';
 import 'package:join_me/pages/splash_page.dart';
@@ -9,7 +8,6 @@ import 'package:join_me/pages/profil_page.dart';
 import 'package:join_me/pages/home_page.dart';
 
 const String landingRoute = '/';
-const String authRoute = '/auth';
 const String loginRoute = '/login';
 const String homeRoute = '/home';
 const String profileRoute = '/profile';
@@ -22,8 +20,6 @@ class Router {
     switch (settings.name) {
       case landingRoute:
         return MaterialPageRoute<SplashPage>(builder: (_) => const SplashPage());
-      case authRoute:
-        return MaterialPageRoute<Auth>(builder: (_) => Auth());
       case loginRoute:
         return MaterialPageRoute<LoginPage>(builder: (_) => LoginPage());
       case homeRoute:
