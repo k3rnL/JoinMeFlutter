@@ -18,7 +18,7 @@ class AppLogo extends AnimatedWidget {
     return Container(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
-      color: Colors.black.withOpacity(_opacityTween.evaluate(animation)),
+      color: Theme.of(context).backgroundColor.withOpacity(_opacityTween.evaluate(animation)),
       child: Container(
         transform: Matrix4.translationValues(0, -yPos, 0),
         margin: const EdgeInsets.all(40),

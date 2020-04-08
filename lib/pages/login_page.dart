@@ -143,6 +143,8 @@ class _LoginPageState extends State<LoginPage>
         msg =
             'Your phone number is incorrect, did you include your country code ?';
         break;
+      default:
+        msg = exception.message;
     }
     setState(() {
       errorOccurred = true;
