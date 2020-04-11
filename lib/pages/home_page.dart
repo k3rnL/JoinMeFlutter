@@ -1,12 +1,8 @@
-import 'dart:convert';
-
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:join_me/components/button.dart';
 import 'package:join_me/components/circle_image_button.dart';
 import 'package:join_me/router.dart';
-import 'package:join_me/services/api_service.dart';
 import 'package:join_me/themes/map_theme.dart';
 import 'package:provider/provider.dart';
 import '../components/map.dart';

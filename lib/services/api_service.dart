@@ -84,7 +84,7 @@ class ApiService {
   static Future<List<Party>> getInvitations(String uid) async {
     final http.Response response = await http.get(API_URL + '/users/$uid/invitations');
     if (response.statusCode == 200) {
-      Map<String, dynamic> json = jsonDecode(response.body);
+      final Map<String, dynamic> json = jsonDecode(response.body);
       return Stream<dynamic>.fromIterable(json.values)
           .asyncMap<Party>((dynamic party) => Party.fromMap(
               json: party as Map<String, dynamic>,
