@@ -25,7 +25,7 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   Future<void> init() async {
-    await initNotifications();
+//    await initNotifications();
     final bool isConnected = await tryConnect();
 
     if (isConnected) {
@@ -72,6 +72,10 @@ class _SplashPageState extends State<SplashPage> {
       },
       onResume: (Map<String, dynamic> message) async {
         print('onResume: $message');
+        print('non');
+        print(Navigator.of(context));
+        Navigator.of(context).pushNamed('/profile');
+        print('oui');
       },
     );
   }
@@ -87,7 +91,7 @@ class _SplashPageState extends State<SplashPage> {
           .document(currentUser.uid)
           .get();
 
-      Provider.of<User>(context, listen: false).uid = currentUser.uid;
+      Provider.of<User>(context, listen: false).uid = userDoc.data['id'];
       Provider.of<User>(context, listen: false).phone = userDoc.data['phone'];
       Provider.of<User>(context, listen: false).picture = userDoc.data['picture'];
       Provider.of<User>(context, listen: false).firstName = userDoc.data['firstname'];

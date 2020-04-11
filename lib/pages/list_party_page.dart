@@ -24,7 +24,8 @@ class _ListPartyPage extends State<ListPartyPage> {
       body: FutureBuilder<List<Party>>(
         future: _getParties(),
         builder: (BuildContext context, AsyncSnapshot<List<Party>> snapshot) {
-          if (snapshot.hasData) {
+          if (snapshot.connectionState == ConnectionState.done &&
+              snapshot.hasData) {
             parties = snapshot.data;
 
             return RefreshIndicator(
@@ -71,12 +72,9 @@ class _ListPartyPage extends State<ListPartyPage> {
                     );
                   }),
             );
-          } else {
-            if (snapshot.hasError) {
-              print(snapshot.error);
-            }
-            return const Text('');
-          }
+          } else if (snapshot.hasError)
+            return const Text('Error when loading your parties');
+          return const Center(child: CircularProgressIndicator());
         },
       ),
     );
@@ -91,9 +89,10 @@ class _ListPartyPage extends State<ListPartyPage> {
 
   Future<List<Party>> _getParties() async {
     final User user = Provider.of<User>(context, listen: false);
-    await user.retrieveData();
-    return await Stream<String>.fromIterable(user.invitations)
-        .asyncMap((String id) => ApiService.getParty(id))
-        .toList();
+    return await ApiService.getInvitations(user.uid);
+//    await user.retrieveData();
+//    return await Stream<String>.fromIterable(user.invitations)
+//        .asyncMap((String id) => ApiService.getParty(id))
+//        .toList();
   }
 }

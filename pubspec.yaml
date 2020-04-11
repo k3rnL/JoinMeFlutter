@@ -25,7 +25,7 @@ dependencies:
 
   firebase_core: 0.4.4
   firebase_auth: 0.15.3
-  firebase_messaging: ^6.0.12
+  firebase_messaging: 6.0.12
   cloud_firestore: ^0.13.4
 
   flutter:

@@ -33,19 +33,22 @@ class User with ChangeNotifier {
       };
 
   static User fromJson(String json) {
-    final Map<String, dynamic> object = jsonDecode(json);
+    return fromMap(jsonDecode(json));
+  }
+
+  static User fromMap(Map<String, dynamic> json) {
     final User user = User();
 
-    user.uid = object['id'];
-    user.firstName = object['firstname'];
-    user.lastName = object['lastname'];
-    user.picture = object['picture'];
+    user.uid = json['id'];
+    user.firstName = json['firstname'];
+    user.lastName = json['lastname'];
+    user.picture = json['picture'];
 
-    final List<dynamic> invitationsRaw = object['invitations'] as List<dynamic>;
+    final List<dynamic> invitationsRaw = json['invitations'] as List<dynamic>;
     user.invitations = invitationsRaw
         .map<String>((dynamic obj) => obj['party_id'].toString())
         .toList();
-    user.phone = object['phone'];
+    user.phone = json['phone'];
     return user;
   }
 }

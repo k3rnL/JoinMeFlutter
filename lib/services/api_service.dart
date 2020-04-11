@@ -23,7 +23,8 @@ class ApiService {
     return '';
   }
 
-  static Future<void> addUsersToParty(List<String> phones, String partyId) async {
+  static Future<void> addUsersToParty(
+      List<String> phones, String partyId) async {
     final List<User> users = phones.map((String phone) {
       final User user = User();
       user.phone = phone;
@@ -37,7 +38,8 @@ class ApiService {
     }
   }
 
-  static Future<void> addUsersToPartyByUid(List<String> uids, String partyId) async {
+  static Future<void> addUsersToPartyByUid(
+      List<String> uids, String partyId) async {
     final List<User> users = uids.map<User>((String uid) {
       final User user = User();
       user.uid = uid;
@@ -53,9 +55,8 @@ class ApiService {
   }
 
   static Future<bool> registerUser(User user) async {
-    final http.Response response = await http.patch(
-        API_URL + '/users/register',
-        body: jsonEncode(user));
+    final http.Response response =
+        await http.patch(API_URL + '/users/register', body: jsonEncode(user));
     if (response.statusCode == 200) {
       return true;
     }
@@ -80,32 +81,46 @@ class ApiService {
     return null;
   }
 
-  static Future<Party> getParty(String id) async {
-    final http.Response response =
-    await http.get(API_URL + '/party/' + id);
+  static Future<List<Party>> getInvitations(String uid) async {
+    final http.Response response = await http.get(API_URL + '/users/$uid/invitations');
     if (response.statusCode == 200) {
-      return Party.fromJson(response.body);
+      Map<String, dynamic> json = jsonDecode(response.body);
+      return Stream<dynamic>.fromIterable(json.values)
+          .asyncMap<Party>((dynamic party) => Party.fromMap(
+              json: party as Map<String, dynamic>,
+              retrieveInvitationsFromApi: false))
+          .toList();
+    }
+    return null;
+  }
+
+  static Future<Party> getParty(String id) async {
+    final http.Response response = await http.get(API_URL + '/party/' + id);
+    if (response.statusCode == 200) {
+      return Party.fromJson(json: response.body);
     }
     return null;
   }
 
   static Future<void> unsubscribeToParty(String uid, String partyId) async {
-    final http.Response response = await http.delete(API_URL + '/users/' + uid + '/' + partyId);
+    final http.Response response =
+        await http.delete(API_URL + '/users/' + uid + '/' + partyId);
     if (response.statusCode == 200) {
       print('unsubscribeToParty Response body: ${response.body}');
     }
   }
 
   static Future<bool> updateUserInfo(User user) async {
-    final http.Response response = await http.patch(API_URL + '/users/' + user.uid ,body: jsonEncode(user));
+    final http.Response response = await http
+        .patch(API_URL + '/users/' + user.uid, body: jsonEncode(user));
     if (response.statusCode == 200) {
       return true;
     }
     return false;
   }
 
-  static Future<bool> updateProfilePicture(File imageProfile, String uid) async {
-
+  static Future<bool> updateProfilePicture(
+      File imageProfile, String uid) async {
     // open a bytestream
     final http.ByteStream stream = http.ByteStream(imageProfile.openRead());
     // get file length
@@ -118,17 +133,17 @@ class ApiService {
     final http.MultipartRequest request = http.MultipartRequest('POST', uri);
 
     // multipart that takes file
-    final http.MultipartFile multipartFile = http.MultipartFile('picture', stream, length,
+    final http.MultipartFile multipartFile = http.MultipartFile(
+        'picture', stream, length,
         filename: imageProfile.path);
 
     // add file to multipart
     request.files.add(multipartFile);
     final http.StreamedResponse response = await request.send();
 
-      if (response.statusCode == 200) {
-        return true;
-      } else {
-      }
-      return false;
+    if (response.statusCode == 200) {
+      return true;
+    } else {}
+    return false;
   }
 }
