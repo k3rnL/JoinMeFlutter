@@ -69,7 +69,6 @@ class _ContactsState extends State<Contacts> {
                                       list.add(contacts[id]);
                                   });
                                   widget.selectedContactsChanged(list);
-                                  print(list.runtimeType);
                                   setState(() {
                                     selectedContacts[contact.identifier] =
                                         value;
