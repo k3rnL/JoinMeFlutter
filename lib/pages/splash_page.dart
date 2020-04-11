@@ -64,18 +64,11 @@ class _SplashPageState extends State<SplashPage> {
     );
     Provider.of<FirebaseMessaging>(context, listen: false).configure(
       onMessage: (Map<String, dynamic> message) async {
-        print('onMessage: $message');
       },
       onBackgroundMessage: backgroundMessageHandler,
       onLaunch: (Map<String, dynamic> message) async {
-        print('onLaunch: $message');
       },
       onResume: (Map<String, dynamic> message) async {
-        print('onResume: $message');
-        print('non');
-        print(Navigator.of(context));
-        Navigator.of(context).pushNamed('/profile');
-        print('oui');
       },
     );
   }

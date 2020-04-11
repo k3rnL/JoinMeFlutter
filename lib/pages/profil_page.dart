@@ -23,9 +23,7 @@ class _ProfilePageState extends State<ProfilePage> {
   void getImage() {
     ImagePicker.pickImage(source: ImageSource.gallery).then((File image) async {
       await ApiService.updateProfilePicture(image, Provider.of<User>(context, listen: false).uid);
-      print('image avant = ' + Provider.of<User>(context, listen: false).picture);
       await Provider.of<User>(context, listen: false).retrieveData();
-      print('image après = ' + Provider.of<User>(context, listen: false).picture);
     });
   }
 

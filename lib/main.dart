@@ -86,37 +86,20 @@ Future<void> loadThemeSettings(MapTheme theme) async {
 }
 
 Future<void> initNotifications(BuildContext context, FirebaseMessaging fcm) async {
-  print('NOTIFICATION INIT');
   await fcm.requestNotificationPermissions(
     const IosNotificationSettings(
         sound: true, badge: true, alert: true, provisional: false),
   );
   fcm.configure(
     onMessage: (Map<String, dynamic> message) async {
-      print('onMessage: $message');
-      print('non');
-//      print(Navigator.of(context));
-//      print(message['data']['party']);
-//      final Party party = await ApiService.getParty(message['data']['party']);
-//      print(party.address);
-//        Provider.of<Party>(context, listen: false).setData(party);
-//        Navigator.of(context).pushNamed('/party/detail');
-      print('oui');
     },
     onBackgroundMessage: null,
     onLaunch: (Map<String, dynamic> message) async {
-      print('onLaunch: $message');
     },
     onResume: (Map<String, dynamic> message) async {
-      print('onResume: $message');
-      print('non');
-      print(Navigator.of(context));
-      print(message['data']['party']);
       final Party party = await ApiService.getParty(message['data']['party']);
-      print(party.address);
       party.setData(party);
       Navigator.of(context).pushNamed('/party/detail');
-      print('oui');
     },
   );
 }

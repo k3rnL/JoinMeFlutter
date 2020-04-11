@@ -21,7 +21,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    print('HERREEEEE'+Provider.of<MapTheme>(context, listen: false).theme);
     return Scaffold(
       body: Stack(
         children: <Widget>[

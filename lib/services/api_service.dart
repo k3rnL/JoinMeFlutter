@@ -23,7 +23,7 @@ class ApiService {
     return '';
   }
 
-  static Future<void> addUsersToParty(
+  static Future<bool> addUsersToParty(
       List<String> phones, String partyId) async {
     final List<User> users = phones.map((String phone) {
       final User user = User();
@@ -34,11 +34,12 @@ class ApiService {
         API_URL + '/party/' + partyId.toString(),
         body: jsonEncode(users));
     if (response.statusCode == 200) {
-      print('addUsersToParty Response body: ${response.body}');
+      return true;
     }
+    return false;
   }
 
-  static Future<void> addUsersToPartyByUid(
+  static Future<bool> addUsersToPartyByUid(
       List<String> uids, String partyId) async {
     final List<User> users = uids.map<User>((String uid) {
       final User user = User();
@@ -50,8 +51,9 @@ class ApiService {
         API_URL + '/party/' + partyId.toString(),
         body: jsonEncode(users));
     if (response.statusCode == 200) {
-      print('addUsersToParty Response body: ${response.body}');
+      return true;
     }
+    return false;
   }
 
   static Future<bool> registerUser(User user) async {
@@ -102,12 +104,13 @@ class ApiService {
     return null;
   }
 
-  static Future<void> unsubscribeToParty(String uid, String partyId) async {
+  static Future<bool> unsubscribeToParty(String uid, String partyId) async {
     final http.Response response =
         await http.delete(API_URL + '/users/' + uid + '/' + partyId);
     if (response.statusCode == 200) {
-      print('unsubscribeToParty Response body: ${response.body}');
+      return true;
     }
+    return false;
   }
 
   static Future<bool> updateUserInfo(User user) async {
