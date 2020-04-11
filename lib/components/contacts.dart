@@ -65,7 +65,8 @@ class _ContactsState extends State<Contacts> {
                                   selectedContacts[contact.identifier] = value;
                                   selectedContacts
                                       .forEach((String id, bool selected) {
-                                    if (selected) list.add(contacts[id]);
+                                    if (selected)
+                                      list.add(contacts[id]);
                                   });
                                   widget.selectedContactsChanged(list);
                                   print(list.runtimeType);
@@ -96,7 +97,8 @@ class _ContactsState extends State<Contacts> {
   }
 
   bool isSelected(Contact contact) {
-    if (selectedContacts[contact.identifier] == null) return false;
+    if (selectedContacts[contact.identifier] == null)
+      return false;
     return selectedContacts[contact.identifier];
   }
 }
