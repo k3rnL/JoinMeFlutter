@@ -65,8 +65,7 @@ class _ContactsState extends State<Contacts> {
                                   selectedContacts[contact.identifier] = value;
                                   selectedContacts
                                       .forEach((String id, bool selected) {
-                                    if (selected)
-                                      list.add(contacts[id]);
+                                    if (selected) list.add(contacts[id]);
                                   });
                                   widget.selectedContactsChanged(list);
                                   print(list.runtimeType);
@@ -97,18 +96,19 @@ class _ContactsState extends State<Contacts> {
   }
 
   bool isSelected(Contact contact) {
-    if (selectedContacts[contact.identifier] == null)
-      return false;
+    if (selectedContacts[contact.identifier] == null) return false;
     return selectedContacts[contact.identifier];
   }
 }
 
 Future<bool> getContactsPermissions() async {
-  final PermissionStatus permission =
+  PermissionStatus permission =
       await PermissionHandler().checkPermissionStatus(PermissionGroup.contacts);
   if (permission == PermissionStatus.denied) {
     await PermissionHandler()
         .requestPermissions(<PermissionGroup>[PermissionGroup.contacts]);
+    permission = await PermissionHandler()
+        .checkPermissionStatus(PermissionGroup.contacts);
   }
   if (permission == PermissionStatus.granted) {
     return true;
