@@ -32,9 +32,17 @@ dependencies:
     sdk: flutter
 
 dev_dependencies:
+  flutter_launcher_icons: "^0.7.0"
   flutter_test:
     sdk: flutter
 
+flutter_icons:
+  ios: true
+  android: true
+  image_path_ios: "assets/images/icon.png"
+  image_path_android: "assets/images/icon.png"
+  adaptive_icon_background: "assets/images/icon_background.png"
+  adaptive_icon_foreground: "assets/images/icon_foreground.png"
 
 flutter:
 
