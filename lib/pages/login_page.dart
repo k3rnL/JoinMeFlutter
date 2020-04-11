@@ -135,7 +135,6 @@ class _LoginPageState extends State<LoginPage>
   Future<void> _verificationCompletedAutomatically(AuthCredential creds) async {
     final AuthResult result = await FirebaseAuth.instance.signInWithCredential(creds);
     await _finishLogin(result.user.uid);
-    Navigator.of(context).pop();
     Navigator.of(context).popAndPushNamed(landingRoute);
   }
 
