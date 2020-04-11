@@ -2,7 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:join_me/components/app_logo.dart';
 import 'package:join_me/components/text_input.dart';
+import 'package:join_me/models/user.dart';
 import 'package:join_me/router.dart';
+import 'package:join_me/services/api_service.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -130,8 +132,9 @@ class _LoginPageState extends State<LoginPage>
     }
   }
 
-  void _verificationCompletedAutomatically(AuthCredential creds) {
-    FirebaseAuth.instance.signInWithCredential(creds);
+  Future<void> _verificationCompletedAutomatically(AuthCredential creds) async {
+    final AuthResult result = await FirebaseAuth.instance.signInWithCredential(creds);
+    await _finishLogin(result.user.uid);
     Navigator.of(context).pop();
     Navigator.of(context).popAndPushNamed(landingRoute);
   }
@@ -168,6 +171,7 @@ class _LoginPageState extends State<LoginPage>
           await FirebaseAuth.instance.signInWithCredential(creds);
 
       if (result.user != null) {
+        await _finishLogin(result.user.uid);
         Navigator.of(context).popAndPushNamed(landingRoute);
       }
 
@@ -178,5 +182,19 @@ class _LoginPageState extends State<LoginPage>
       errorOccurred = true;
       errorMessage = 'The code entered is incorrect';
     });
+  }
+  
+  Future<void> _finishLogin(String uid) async {
+    User user = await ApiService.getUser(uid);
+
+    // create account
+    if (user == null) {
+      user = User();
+      user.uid = uid;
+      user.phone = _phoneController.text;
+      user.token = '';
+
+      await ApiService.registerUser(user);
+    }
   }
 }

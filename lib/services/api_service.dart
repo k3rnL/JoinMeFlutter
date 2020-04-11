@@ -56,7 +56,7 @@ class ApiService {
 
   static Future<bool> registerUser(User user) async {
     final http.Response response =
-        await http.patch(API_URL + '/users/register', body: jsonEncode(user));
+        await http.post(API_URL + '/users/register', body: jsonEncode(user));
     if (response.statusCode == 200) {
       return true;
     }

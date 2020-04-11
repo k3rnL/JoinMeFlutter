@@ -8,14 +8,16 @@ class User with ChangeNotifier {
 
   String uid;
   String phone;
+  String token;
   String picture;
-  String firstName;
   String lastName;
+  String firstName;
   List<String> invitations;
 
   Future<void> retrieveData() async {
     final User user = await ApiService.getUser(uid);
     phone = user.phone;
+    token = user.token;
     picture = user.picture;
     lastName = user.lastName;
     firstName = user.firstName;
@@ -27,6 +29,7 @@ class User with ChangeNotifier {
         'uid': uid,
         'firstname': firstName,
         'lastname': lastName,
+        'fcm_token': token,
         'phone': phone,
         'picture': picture,
         'invitations': invitations,
@@ -40,6 +43,7 @@ class User with ChangeNotifier {
     final User user = User();
 
     user.uid = json['id'];
+    user.token = json['fcm_token'];
     user.firstName = json['firstname'];
     user.lastName = json['lastname'];
     user.picture = json['picture'];
