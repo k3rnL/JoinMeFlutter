@@ -11,7 +11,7 @@
 
     <application
         android:name=".Application"
-        android:label="join_me"
+        android:label="Join me"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
