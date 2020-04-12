@@ -31,18 +31,19 @@ class _SplashPageState extends State<SplashPage> {
     if (isConnected) {
       // update user token
       final String fcmToken =
-          await Provider.of<FirebaseMessaging>(context, listen: false).getToken();
+          await Provider.of<FirebaseMessaging>(context, listen: false)
+              .getToken();
       await ApiService.updateUserToken(
           Provider.of<User>(context, listen: false).uid, fcmToken);
 
       Navigator.pushReplacementNamed(context, homeRoute);
-
     } else {
       Navigator.pushReplacementNamed(context, loginRoute);
     }
   }
 
-  static Future<void> backgroundMessageHandler(Map<String, dynamic> message) async {
+  static Future<void> backgroundMessageHandler(
+      Map<String, dynamic> message) async {
     if (message.containsKey('data')) {
       // Handle data message
 //      final dynamic data = message['data'];
@@ -63,13 +64,10 @@ class _SplashPageState extends State<SplashPage> {
           sound: true, badge: true, alert: true, provisional: false),
     );
     Provider.of<FirebaseMessaging>(context, listen: false).configure(
-      onMessage: (Map<String, dynamic> message) async {
-      },
+      onMessage: (Map<String, dynamic> message) async {},
       onBackgroundMessage: backgroundMessageHandler,
-      onLaunch: (Map<String, dynamic> message) async {
-      },
-      onResume: (Map<String, dynamic> message) async {
-      },
+      onLaunch: (Map<String, dynamic> message) async {},
+      onResume: (Map<String, dynamic> message) async {},
     );
   }
 
@@ -84,11 +82,8 @@ class _SplashPageState extends State<SplashPage> {
           .document(currentUser.uid)
           .get();
 
-      Provider.of<User>(context, listen: false).uid = userDoc.data['id'];
-      Provider.of<User>(context, listen: false).phone = userDoc.data['phone'];
-      Provider.of<User>(context, listen: false).picture = userDoc.data['picture'];
-      Provider.of<User>(context, listen: false).firstName = userDoc.data['firstname'];
-      Provider.of<User>(context, listen: false).lastName = userDoc.data['lastname'];
+      Provider.of<User>(context, listen: false)
+          .setData(User.fromMap(userDoc.data));
       return true;
     }
   }

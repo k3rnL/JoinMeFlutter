@@ -20,6 +20,7 @@ class _LoginPageState extends State<LoginPage>
   String _verificationId;
   bool errorOccurred = false;
   String errorMessage;
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -77,10 +78,13 @@ class _LoginPageState extends State<LoginPage>
         controller: _phoneController,
         hintText: '+33...',
       ),
-      RaisedButton(
-        child: const Text('Login'),
-        onPressed: () => _tryLogin(_phoneController.text),
-      )
+      if (!isLoading)
+        RaisedButton(
+          child: const Text('Login'),
+          onPressed: () => _tryLogin(_phoneController.text),
+        )
+      else
+        const CircularProgressIndicator()
     ];
   }
 
@@ -94,25 +98,28 @@ class _LoginPageState extends State<LoginPage>
         controller: _codeController,
         hintText: 'Verification code',
       ),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          RaisedButton(
-            child: const Text('Change phone'),
-            onPressed: () {
-              setState(() {
-                _verificationId = null;
-                errorMessage = null;
-                errorOccurred = false;
-              });
-            },
-          ),
-          RaisedButton(
-            child: const Text('Verify'),
-            onPressed: () => _verifyCode(_codeController.text),
-          )
-        ],
-      )
+      if (!isLoading)
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            RaisedButton(
+              child: const Text('Change phone'),
+              onPressed: () {
+                setState(() {
+                  _verificationId = null;
+                  errorMessage = null;
+                  errorOccurred = false;
+                });
+              },
+            ),
+            RaisedButton(
+              child: const Text('Verify'),
+              onPressed: () => _verifyCode(_codeController.text),
+            )
+          ],
+        )
+      else
+        const CircularProgressIndicator()
     ];
   }
 
@@ -122,6 +129,9 @@ class _LoginPageState extends State<LoginPage>
         errorOccurred = true;
       });
     } else {
+      setState(() {
+        isLoading = true;
+      });
       FirebaseAuth.instance.verifyPhoneNumber(
           phoneNumber: phone,
           timeout: const Duration(minutes: 2),
@@ -133,7 +143,8 @@ class _LoginPageState extends State<LoginPage>
   }
 
   Future<void> _verificationCompletedAutomatically(AuthCredential creds) async {
-    final AuthResult result = await FirebaseAuth.instance.signInWithCredential(creds);
+    final AuthResult result =
+        await FirebaseAuth.instance.signInWithCredential(creds);
     await _finishLogin(result.user.uid);
     Navigator.of(context).popAndPushNamed(landingRoute);
   }
@@ -151,18 +162,23 @@ class _LoginPageState extends State<LoginPage>
     setState(() {
       errorOccurred = true;
       errorMessage = msg;
+      isLoading = false;
     });
   }
 
   void _codeSent(String verificationId, [int forceCodeResent]) {
-    errorOccurred = false;
-    errorMessage = null;
     setState(() {
+      errorOccurred = false;
+      errorMessage = null;
       _verificationId = verificationId;
+      isLoading = false;
     });
   }
 
   Future<void> _verifyCode(String code) async {
+    setState(() {
+      isLoading = true;
+    });
     if (code != null && code != '') {
       final AuthCredential creds = PhoneAuthProvider.getCredential(
           verificationId: _verificationId, smsCode: code);
@@ -180,9 +196,10 @@ class _LoginPageState extends State<LoginPage>
     setState(() {
       errorOccurred = true;
       errorMessage = 'The code entered is incorrect';
+      isLoading = false;
     });
   }
-  
+
   Future<void> _finishLogin(String uid) async {
     User user = await ApiService.getUser(uid);
 

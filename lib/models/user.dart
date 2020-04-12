@@ -16,6 +16,10 @@ class User with ChangeNotifier {
 
   Future<void> retrieveData() async {
     final User user = await ApiService.getUser(uid);
+    setData(user);
+  }
+
+  void setData(final User user) {
     phone = user.phone;
     token = user.token;
     picture = user.picture;
