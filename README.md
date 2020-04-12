@@ -28,8 +28,8 @@ You can download the apk for android on this [![Codemagic build status](https://
 
 # Build project
 
-The project use an continious integration platform called Codemagic.
-The project has 2 different CI : 
+The project uses a continuous integration platform called Codemagic.
+The project has 2 differents CI : 
 
 - When in master branch the project will be build in release and debug
 
