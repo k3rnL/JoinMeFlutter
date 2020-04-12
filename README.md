@@ -19,7 +19,7 @@ You can download the apk for android on this [![Codemagic build status](https://
 
 - Dart version => 2.7.0
 
-- Flutter version => 39.0.1
+- Flutter version => 1.12.13
 
 - Java version => 1.8
 
