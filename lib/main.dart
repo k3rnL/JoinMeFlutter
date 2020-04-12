@@ -67,6 +67,21 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
+  static bool handleNotifications = false;
+
+  Future<void> _handleNotifications(Map<String, dynamic> message) async {
+    if (handleNotifications) {
+      handleNotifications = !handleNotifications;
+      final Party party = await ApiService.getParty(
+          message['data']['party_id']);
+      widget.party.setData(party);
+      _navigator.currentState.pushNamed('/party/detail');
+    }
+    else {
+      handleNotifications = !handleNotifications;
+    }
+  }
+
   Future<void> initNotifications(BuildContext context, FirebaseMessaging fcm) async {
     await fcm.requestNotificationPermissions(
       const IosNotificationSettings(
@@ -74,24 +89,17 @@ class _MyAppState extends State<MyApp> {
     );
     fcm.configure(
       onMessage: (Map<String, dynamic> message) async {
-        final Party party = await ApiService.getParty(message['data']['party_id']);
-        widget.party.setData(party);
-        _navigator.currentState.pushNamed('/party/detail');
+        _handleNotifications(message);
       },
       onBackgroundMessage: null,
       onLaunch: (Map<String, dynamic> message) async {
-        final Party party = await ApiService.getParty(message['data']['party_id']);
-        widget.party.setData(party);
-        _navigator.currentState.pushNamed('/party/detail');
+        _handleNotifications(message);
       },
       onResume: (Map<String, dynamic> message) async {
-        final Party party = await ApiService.getParty(message['data']['party_id']);
-        widget.party.setData(party);
-        _navigator.currentState.pushNamed('/party/detail');
+        _handleNotifications(message);
       },
     );
   }
-
 }
 
 Future<void> loadThemeSettings(MapTheme theme) async {
