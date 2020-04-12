@@ -25,6 +25,11 @@ You can download the apk for android on this [![Codemagic build status](https://
 
 # Development mode
 
+- flutter packages get
+
+- flutter build android
+
+- flutter build ios
 
 # Build project
 
