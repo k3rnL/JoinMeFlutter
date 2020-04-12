@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:join_me/components/button.dart';
@@ -11,7 +13,7 @@ class PartyDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Party party = Provider.of<Party>(context, listen: false);
-
+    print(jsonEncode(party));
     return Scaffold(
       body: Column(
               children: <Widget>[

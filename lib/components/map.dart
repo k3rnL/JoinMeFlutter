@@ -39,6 +39,8 @@ class _MapWidgetState extends State<MapWidget> {
   void initState() {
     super.initState();
     _updateOnThemeChange = () async {
+      if (context == null)
+        return;
       (await _controller.future)
           .setMapStyle(Provider.of<MapTheme>(context, listen: false).theme);
       setState(() {});
