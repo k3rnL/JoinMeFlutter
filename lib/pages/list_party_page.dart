@@ -19,65 +19,65 @@ class _ListPartyPage extends State<ListPartyPage> {
   List<Party> parties;
 
   @override
+  void initState() {
+    super.initState();
+    _handleRefresh();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FutureBuilder<List<Party>>(
-        future: _getParties(),
-        builder: (BuildContext context, AsyncSnapshot<List<Party>> snapshot) {
-          if (snapshot.connectionState == ConnectionState.done &&
-              snapshot.hasData) {
-            parties = snapshot.data;
+        body: RefreshIndicator(
+      onRefresh: _handleRefresh,
+      child: parties == null ? _buildLoading(context) : _buildList(context),
+    ));
+  }
 
-            return RefreshIndicator(
-              onRefresh: _handleRefresh,
-              child: ListView.builder(
-                  itemCount: parties.length,
-                  itemBuilder: (BuildContext ctxt, int index) {
-                    final Party party = parties[index];
-                    final String nbMembersString =
-                        party.members.length.toString() + ' members';
-                    final String encoded = Uri.encodeFull(party.address);
-                    return Slidable(
-                      key: Key(index.toString()),
-                      actionPane: const SlidableDrawerActionPane(),
-                      child: Column(
-                        children: <Widget>[
-                          ListItem(
-                            image: NetworkImage(
-                                'https://maps.googleapis.com/maps/api/staticmap?center=$encoded&zoom=13&size=180x180&maptype=roadmap&markers=color:blue%7C$encoded&key=AIzaSyAfv8IPCxhiURtrI8tDyQptGEVQoOl0G3c'),
-                            title: party.name,
-                            subtitle: nbMembersString,
-                            onTap: () {
-                              Provider.of<Party>(context, listen: false)
-                                  .setData(party);
-                              Navigator.of(context).pushNamed(partyDetail);
-                            },
-                          ),
-                        ],
-                      ),
-                      actions: <Widget>[
-                        IconSlideAction(
-                            caption: 'Delete',
-                            color: Colors.red,
-                            icon: Icons.delete,
-                            onTap: () {
-                              ApiService.unsubscribeToParty(
-                                  Provider.of<User>(context, listen: false).uid,
-                                  parties[index].id.toString());
-                              setState(() {
-                                parties.removeAt(index);
-                              });
-                            }),
-                      ],
-                    );
+  Widget _buildList(BuildContext context) {
+    return ListView.builder(
+        itemCount: parties.length,
+        itemBuilder: (BuildContext ctxt, int index) {
+          final Party party = parties[index];
+          final String nbMembersString =
+              party.members.length.toString() + ' members';
+          final String encoded = Uri.encodeFull(party.address);
+          return Slidable(
+            key: Key(index.toString()),
+            actionPane: const SlidableDrawerActionPane(),
+            child: Column(
+              children: <Widget>[
+                ListItem(
+                  image: NetworkImage(
+                      'https://maps.googleapis.com/maps/api/staticmap?center=$encoded&zoom=13&size=180x180&maptype=roadmap&markers=color:blue%7C$encoded&key=AIzaSyAfv8IPCxhiURtrI8tDyQptGEVQoOl0G3c'),
+                  title: party.name,
+                  subtitle: nbMembersString,
+                  onTap: () {
+                    Provider.of<Party>(context, listen: false).setData(party);
+                    Navigator.of(context).pushNamed(partyDetail);
+                  },
+                ),
+              ],
+            ),
+            actions: <Widget>[
+              IconSlideAction(
+                  caption: 'Delete',
+                  color: Colors.red,
+                  icon: Icons.delete,
+                  onTap: () {
+                    ApiService.unsubscribeToParty(
+                        Provider.of<User>(context, listen: false).uid,
+                        parties[index].id.toString());
+                    setState(() {
+                      parties.removeAt(index);
+                    });
                   }),
-            );
-          } else if (snapshot.hasError)
-            return const Text('Error when loading your parties');
-          return const Center(child: CircularProgressIndicator());
-        },
-      ),
-    );
+            ],
+          );
+        });
+  }
+
+  Widget _buildLoading(BuildContext context) {
+    return const Center(child: CircularProgressIndicator());
   }
 
   Future<void> _handleRefresh() async {
@@ -90,9 +90,5 @@ class _ListPartyPage extends State<ListPartyPage> {
   Future<List<Party>> _getParties() async {
     final User user = Provider.of<User>(context, listen: false);
     return await ApiService.getInvitations(user.uid);
-//    await user.retrieveData();
-//    return await Stream<String>.fromIterable(user.invitations)
-//        .asyncMap((String id) => ApiService.getParty(id))
-//        .toList();
   }
 }
