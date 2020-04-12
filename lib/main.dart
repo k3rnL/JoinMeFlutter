@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -26,11 +28,12 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  final GlobalKey<NavigatorState> _navigator = GlobalKey<NavigatorState>();
 
   @override
   void initState() {
     super.initState();
-    initNotifications(context, widget.fcm);
+//    initNotifications(context, widget.fcm);
   }
 
   @override
@@ -49,10 +52,12 @@ class _MyAppState extends State<MyApp> {
         future: loadThemeSettings(widget.theme),
         builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
+            initNotifications(context, widget.fcm);
             return Consumer<MapTheme>(
               builder: (BuildContext context, MapTheme theme, Widget w) {
                 return MaterialApp(
                   title: 'JoinMe',
+                  navigatorKey: _navigator,
                   debugShowCheckedModeBanner: false,
                   onGenerateRoute: Router.generateRoute,
                   initialRoute: landingRoute,
@@ -69,6 +74,32 @@ class _MyAppState extends State<MyApp> {
       ),
     );
   }
+
+  Future<void> initNotifications(BuildContext context, FirebaseMessaging fcm) async {
+    await fcm.requestNotificationPermissions(
+      const IosNotificationSettings(
+          sound: true, badge: true, alert: true, provisional: false),
+    );
+    fcm.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        final Party party = await ApiService.getParty(message['data']['party_id']);
+        widget.party.setData(party);
+        _navigator.currentState.pushNamed('/party/detail');
+      },
+      onBackgroundMessage: null,
+      onLaunch: (Map<String, dynamic> message) async {
+        final Party party = await ApiService.getParty(message['data']['party_id']);
+        widget.party.setData(party);
+        _navigator.currentState.pushNamed('/party/detail');
+      },
+      onResume: (Map<String, dynamic> message) async {
+        final Party party = await ApiService.getParty(message['data']['party_id']);
+        widget.party.setData(party);
+        _navigator.currentState.pushNamed('/party/detail');
+      },
+    );
+  }
+
 }
 
 Future<void> loadThemeSettings(MapTheme theme) async {
@@ -83,23 +114,4 @@ Future<void> loadThemeSettings(MapTheme theme) async {
     theme.setTheme(false);
   else
     theme.setTheme(true);
-}
-
-Future<void> initNotifications(BuildContext context, FirebaseMessaging fcm) async {
-  await fcm.requestNotificationPermissions(
-    const IosNotificationSettings(
-        sound: true, badge: true, alert: true, provisional: false),
-  );
-  fcm.configure(
-    onMessage: (Map<String, dynamic> message) async {
-    },
-    onBackgroundMessage: null,
-    onLaunch: (Map<String, dynamic> message) async {
-    },
-    onResume: (Map<String, dynamic> message) async {
-      final Party party = await ApiService.getParty(message['data']['party']);
-      party.setData(party);
-      Navigator.of(context).pushNamed('/party/detail');
-    },
-  );
 }
