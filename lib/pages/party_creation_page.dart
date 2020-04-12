@@ -33,12 +33,14 @@ class PartyCreationPage extends StatefulWidget {
 class _PartyCreationPageState extends State<PartyCreationPage> {
   List<Contact> selectedContact;
   String filter;
+  bool isCreatingParty;
 
   @override
   void initState() {
     super.initState();
     selectedContact = <Contact>[];
     filter = '';
+    isCreatingParty = false;
   }
 
   @override
@@ -58,18 +60,7 @@ class _PartyCreationPageState extends State<PartyCreationPage> {
             const SizedBox(
               height: 20,
             ),
-            Button(
-              label: 'Confirm',
-              onPressed: () {
-                final String name = Provider.of<Party>(context, listen: false).name;
-                if (name == null || name == '') {
-                  Provider.of<Party>(context, listen: false).name = 'My party';
-                }
-                createEvent(
-                    context, Provider.of<Party>(context, listen: false),
-                    selectedContact);
-              },
-            ),
+            ..._buildConfirmButton(context),
             const SizedBox(
               height: 10,
             ),
@@ -118,5 +109,25 @@ class _PartyCreationPageState extends State<PartyCreationPage> {
         ),
       ),
     );
+  }
+
+  List<Widget> _buildConfirmButton(BuildContext context) {
+    return <Widget>[
+      if (!isCreatingParty) Button(
+        label: 'Confirm',
+        onPressed: () {
+          setState(() {
+            isCreatingParty = true;
+          });
+          final String name = Provider.of<Party>(context, listen: false).name;
+          if (name == null || name == '') {
+            Provider.of<Party>(context, listen: false).name = 'My party';
+          }
+          createEvent(
+              context, Provider.of<Party>(context, listen: false),
+              selectedContact);
+        },
+      ) else Container(height: 48,child: const Center(child: CircularProgressIndicator()))
+    ];
   }
 }
