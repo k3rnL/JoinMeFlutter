@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -29,12 +27,6 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final GlobalKey<NavigatorState> _navigator = GlobalKey<NavigatorState>();
-
-  @override
-  void initState() {
-    super.initState();
-//    initNotifications(context, widget.fcm);
-  }
 
   @override
   Widget build(BuildContext context) {
