@@ -84,6 +84,8 @@ class _SplashPageState extends State<SplashPage> {
 
       Provider.of<User>(context, listen: false)
           .setData(User.fromMap(userDoc.data));
+      // special case
+      Provider.of<User>(context, listen: false).uid = currentUser.uid;
       return true;
     }
   }
